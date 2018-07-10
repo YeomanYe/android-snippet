@@ -1,4 +1,4 @@
-package fwheart.com.androidsnippet;
+package com.fwheart.androidsnippet;
 
 import android.app.Application;
 

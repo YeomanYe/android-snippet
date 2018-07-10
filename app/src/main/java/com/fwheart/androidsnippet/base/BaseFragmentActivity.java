@@ -1,4 +1,4 @@
-package fwheart.com.androidsnippet.base;
+package com.fwheart.androidsnippet.base;
 
 import android.support.v7.app.AppCompatActivity;
 
