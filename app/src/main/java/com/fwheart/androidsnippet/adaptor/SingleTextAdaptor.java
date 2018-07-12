@@ -15,11 +15,11 @@ public class SingleTextAdaptor extends RecyclerView.Adapter<SingleTextAdaptor.Vi
     private List<Map> maps;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView comdStr;
+        TextView textView;
 
         public ViewHolder(View view) {
             super(view);
-            comdStr = (TextView) view.findViewById(R.id.text);
+            textView = (TextView) view.findViewById(R.id.text);
         }
     }
 
@@ -38,7 +38,7 @@ public class SingleTextAdaptor extends RecyclerView.Adapter<SingleTextAdaptor.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Map map = maps.get(position);
-        holder.comdStr.setText((String)map.get("desc"));
+        holder.textView.setText((String)map.get("desc"));
     }
 
     @Override

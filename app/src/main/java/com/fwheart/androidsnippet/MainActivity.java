@@ -1,7 +1,5 @@
 package com.fwheart.androidsnippet;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.fwheart.androidsnippet.base.BaseFragmentActivity;
@@ -17,8 +15,14 @@ public class MainActivity extends BaseFragmentActivity {
         String frgTag = fragment.getClass().getSimpleName();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(0,fragment,frgTag)
+                .add(getContextViewId(),fragment,frgTag)
                 .addToBackStack(frgTag)
                 .commit();
     }
+
+    @Override
+    protected int getContextViewId() {
+        return 0x1202;
+    }
+
 }

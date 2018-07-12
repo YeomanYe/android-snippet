@@ -1,6 +1,8 @@
 package com.fwheart.androidsnippet.fragment;
 
 
+import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.fwheart.androidsnippet.R;
 import com.fwheart.androidsnippet.adaptor.SingleTextAdaptor;
