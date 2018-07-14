@@ -22,7 +22,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected int getContextViewId() {
-        return 0x1202;
+        return R.id.mainAct;
     }
 
 }

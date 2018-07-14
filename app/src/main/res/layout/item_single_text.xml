@@ -6,6 +6,10 @@
 
     <TextView
         android:id="@+id/text"
+        android:text="测试"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:background="@color/grey"
         android:textSize="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

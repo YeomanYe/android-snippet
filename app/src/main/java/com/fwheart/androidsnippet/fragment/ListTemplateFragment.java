@@ -1,6 +1,7 @@
 package com.fwheart.androidsnippet.fragment;
 
-
+import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,13 +22,26 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeFragment extends BaseFragment{
-
+public class ListTemplateFragment extends BaseFragment {
     private List<Map> maps = new ArrayList<>();
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    private String[] itemStrs;
+    private RecyclerItemClickListener itemClickListener;
+    public ListTemplateFragment(){
+        super();
+    }
+
+    @SuppressLint("ValidFragment")
+    public ListTemplateFragment(String[] itemStrs,RecyclerItemClickListener listener) {
+        super();
+        this.itemStrs = itemStrs;
+        this.itemClickListener = listener;
+    }
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
     @Override
     protected View onCreateView() {
-        FrameLayout layout = (FrameLayout)LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,null);
+        FrameLayout layout = (FrameLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,null);
         ButterKnife.bind(this,layout);
         initDatas();
         initView();
@@ -36,31 +50,11 @@ public class HomeFragment extends BaseFragment{
     private void initView(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                BaseFragmentActivity fAct = getBaseFragmentActivity();
-                switch (position){
-                    case 0:fAct.startFragment(createDialogList());break;
-                    case 1:showTips("click 1");break;
-                    case 2:showTips("click 2");break;
-                }
-            }
-        }));
+        recyclerView.addOnItemTouchListener(itemClickListener);
         SingleTextAdaptor singleTextAdaptor = new SingleTextAdaptor(maps);
         recyclerView.setAdapter(singleTextAdaptor);
     }
-    private ListTemplateFragment createDialogList(){
-        return new ListTemplateFragment(new String[]{"Dialog1","Dialog2"},new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-            }
-        }));
-    }
     private void initDatas(){
-        String[] itemStrs = {"Toast","Dialog","Pop-up"};
-        maps.clear();
         for(String s:itemStrs){
             Map map = new HashMap();
             map.put("desc",s);
