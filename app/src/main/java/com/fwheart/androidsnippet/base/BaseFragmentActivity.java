@@ -29,5 +29,13 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
                 .addToBackStack(tagName)
                 .commit();
     }
+    public int initWithFragment(BaseFragment fragment){
+        String frgTag = fragment.getClass().getSimpleName();
+        return getSupportFragmentManager()
+                .beginTransaction()
+                .add(getContextViewId(),fragment,frgTag)
+                .addToBackStack(frgTag)
+                .commit();
+    }
     protected abstract int getContextViewId();
 }

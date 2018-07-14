@@ -12,12 +12,7 @@ public class MainActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         if(null != savedInstanceState) return;
         HomeFragment fragment = new HomeFragment();
-        String frgTag = fragment.getClass().getSimpleName();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(getContextViewId(),fragment,frgTag)
-                .addToBackStack(frgTag)
-                .commit();
+        initWithFragment(fragment);
     }
 
     @Override
