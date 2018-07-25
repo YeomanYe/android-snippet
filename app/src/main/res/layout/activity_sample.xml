@@ -23,13 +23,13 @@
             android:layout_weight="1"
             android:background="@android:color/white" />
 
-        <com.fwheart.androidsnippet.layout.SlidingTabLayout
+        <com.fwheart.androidsnippet.component.ASTabBar
             android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
-            app:tab_title_textSize="26dp"
-            app:tab_item_padding="20dp"
-            app:tab_mode="icon"
-            app:tab_title_offset="20"
+            app:tab_title_textSize="10"
+            app:tab_item_padding="16dp"
+            app:tab_type="icon"
+            app:tab_title_offset="20dp"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimaryDark"
             android:paddingLeft="20dp"

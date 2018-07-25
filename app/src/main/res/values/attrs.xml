@@ -9,7 +9,7 @@
     </declare-styleable>
     <!-- tabbar -->
     <attr name="tabbar_defStyle" format="reference"/>
-    <declare-styleable name="TabBar">
+    <declare-styleable name="ASTabBar">
         <attr name="tab_item_padding" format="dimension"/>
         <attr name="tab_item_padding_top" format="dimension"/>
         <attr name="tab_item_padding_bottom" format="dimension"/>
@@ -19,8 +19,9 @@
         <attr name="tab_item_padding_vertical" format="dimension"/>
         <attr name="tab_title_offset" format="dimension"/>
         <attr name="tab_has_indicator" format="boolean"/>
+        <attr name="tab_distribute_evenly" format="boolean"/>
         <attr name="tab_title_textSize" format="integer"/>
-        <attr name="tab_mode" format="enum">
+        <attr name="tab_type" format="enum">
             <enum name="text" value="0"/>
             <enum name="icon" value="1"/>
             <enum name="text_icon" value="2"/>

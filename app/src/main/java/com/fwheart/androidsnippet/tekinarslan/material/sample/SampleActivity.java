@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fwheart.androidsnippet.R;
-import com.fwheart.androidsnippet.layout.SlidingTabLayout;
+import com.fwheart.androidsnippet.component.ASTabBar;
 
 
 public class SampleActivity extends ActionBarActivity {
@@ -31,7 +31,7 @@ public class SampleActivity extends ActionBarActivity {
     private String[] titles2 = new String[]{"Sample Tab1","Sample Tab2"};
     private Toolbar toolbar;
 
-    SlidingTabLayout slidingTabLayout;
+    ASTabBar slidingTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +46,11 @@ public class SampleActivity extends ActionBarActivity {
             toolbar.setNavigationIcon(R.drawable.ic_ab_drawer);
         }
         pager = (ViewPager) findViewById(R.id.viewpager);
-        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        slidingTabLayout.setDistributeEvenly(true);
+        slidingTabLayout = (ASTabBar) findViewById(R.id.sliding_tabs);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), titles));
 
         slidingTabLayout.setViewPager(pager);
-        slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+        slidingTabLayout.setCustomTabColorizer(new ASTabBar.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
                 return Color.WHITE;
