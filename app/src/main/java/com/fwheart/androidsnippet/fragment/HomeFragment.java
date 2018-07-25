@@ -51,7 +51,7 @@ public class HomeFragment extends BaseFragment{
         recyclerView.setAdapter(singleTextAdaptor);
     }
     private ListTemplateFragment createDialogList(){
-        return new ListTemplateFragment(new String[]{"Dialog1","Dialog2"},new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+        return new ListTemplateFragment(new String[]{"Tab","Drawer"},new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 
@@ -59,7 +59,7 @@ public class HomeFragment extends BaseFragment{
         }));
     }
     private void initDatas(){
-        String[] itemStrs = {"Toast","Dialog","Pop-up"};
+        String[] itemStrs = {"Layout","Toast","Dialog","Pop-up"};
         maps.clear();
         for(String s:itemStrs){
             Map map = new HashMap();

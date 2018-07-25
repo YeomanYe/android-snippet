@@ -17,7 +17,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected int getContextViewId() {
-        return R.id.mainAct;
+        return R.id.main_act;
     }
 
 }
