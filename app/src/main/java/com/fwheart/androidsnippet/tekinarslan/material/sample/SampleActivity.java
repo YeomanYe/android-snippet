@@ -1,8 +1,10 @@
 package com.fwheart.androidsnippet.tekinarslan.material.sample;
 
+
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -13,10 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.fwheart.androidsnippet.R;
-import com.fwheart.androidsnippet.component.ASTabBar;
+import com.fwheart.androidsnippet.component.tab.ASTabBar;
+import com.fwheart.androidsnippet.component.tab.ASTabPage;
 
 
 public class SampleActivity extends ActionBarActivity {
@@ -45,8 +49,9 @@ public class SampleActivity extends ActionBarActivity {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_ab_drawer);
         }
-        pager = (ViewPager) findViewById(R.id.viewpager);
-        slidingTabLayout = (ASTabBar) findViewById(R.id.sliding_tabs);
+        /*FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab_sample);
+        pager = (ViewPager) frameLayout.findViewById(R.id.viewpager);
+        slidingTabLayout = (ASTabBar) frameLayout.findViewById(R.id.sliding_tabs);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), titles));
 
         slidingTabLayout.setViewPager(pager);
@@ -55,7 +60,14 @@ public class SampleActivity extends ActionBarActivity {
             public int getIndicatorColor(int position) {
                 return Color.WHITE;
             }
-        });
+        });*/
+        ASTabPage asTabPage = (ASTabPage) findViewById(R.id.asTabPage);
+        ASTabPage.IconItem item1 = new ASTabPage.IconItem(R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(0));
+        ASTabPage.IconItem item2 = new ASTabPage.IconItem(R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(1));
+        ASTabPage.IconItem item3 = new ASTabPage.IconItem(R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(2));
+
+        asTabPage.init(this,item1,item2,item3);
+
         drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.setDrawerListener(drawerToggle);
         String[] values = new String[]{

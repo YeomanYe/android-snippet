@@ -16,24 +16,36 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimaryDark" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
+      <!--  <FrameLayout
+            android:id="@+id/tab_sample"
             android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:background="@android:color/white" />
+            android:layout_height="match_parent">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="80dp"
+                android:background="@android:color/white" />
 
-        <com.fwheart.androidsnippet.component.ASTabBar
-            android:id="@+id/sliding_tabs"
+            <com.fwheart.androidsnippet.component.tab.ASTabBar
+                android:id="@+id/sliding_tabs"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                app:tab_title_textSize="10"
+                app:tab_item_padding="16dp"
+                app:tab_type="icon"
+                app:tab_title_offset="20dp"
+                android:layout_height="80dp"
+                android:background="?attr/colorPrimaryDark"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+        </FrameLayout>-->
+        <com.fwheart.androidsnippet.component.tab.ASTabPage
+            android:id="@+id/asTabPage"
             android:layout_width="match_parent"
-            app:tab_title_textSize="10"
-            app:tab_item_padding="16dp"
-            app:tab_type="icon"
-            app:tab_title_offset="20dp"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimaryDark"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" />
+            android:layout_height="match_parent">
+        </com.fwheart.androidsnippet.component.tab.ASTabPage>
+
     </LinearLayout>
 
     <ListView

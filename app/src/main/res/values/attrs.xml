@@ -21,11 +21,6 @@
         <attr name="tab_has_indicator" format="boolean"/>
         <attr name="tab_distribute_evenly" format="boolean"/>
         <attr name="tab_title_textSize" format="integer"/>
-        <attr name="tab_type" format="enum">
-            <enum name="text" value="0"/>
-            <enum name="icon" value="1"/>
-            <enum name="text_icon" value="2"/>
-        </attr>
     </declare-styleable>
     <!-- tabbar -->
 </resources>
