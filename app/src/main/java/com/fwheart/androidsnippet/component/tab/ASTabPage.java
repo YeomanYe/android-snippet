@@ -1,12 +1,17 @@
 package com.fwheart.androidsnippet.component.tab;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.fwheart.androidsnippet.R;
 
@@ -99,6 +104,16 @@ public class ASTabPage extends FrameLayout {
 
     public void init(FragmentActivity fragmentActivity,ASTabItem...items){
         asTabItems = items;
+
+        //设置viewpager自适应间距
+        asTabBar.post(new Runnable() {
+            @Override
+            public void run() {
+                LayoutParams lp = (FrameLayout.LayoutParams)viewPager.getLayoutParams();
+                lp.setMargins(0,0,0,asTabBar.getHeight());
+            }
+        });
+
         viewPager.setAdapter(new ASTabPagerAdapter(fragmentActivity.getSupportFragmentManager(),asTabItems));
         asTabBar.setTabItems(items);
         asTabBar.init();
