@@ -1,6 +1,7 @@
 package com.fwheart.androidsnippet.component.tab;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -24,12 +25,31 @@ public class ASTabPage extends FrameLayout {
         this(context,null);
     }
     public ASTabPage(Context context, AttributeSet attrs){
-        super(context,attrs);
+        this(context,attrs,R.attr.tabpage_defStyle);
+    }
+    public ASTabPage(Context context,AttributeSet attrs,int defStyleAttr){
+        super(context,attrs,defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.comp_tab_page,this);
         initViewPager();
         initTabBar();
+        initAttr(attrs,defStyleAttr);
     }
 
+    private void initAttr(AttributeSet attrs,int defStyleAttr){
+        Context context = getContext();
+        TypedArray tArr = context.obtainStyledAttributes(attrs,R.styleable.ASTabBar,defStyleAttr,0);
+        asTabBar.itemPadding = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding, asTabBar.itemPadding);
+        asTabBar.itemPaddingTop = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_top, asTabBar.itemPaddingTop);
+        asTabBar.itemPaddingBottom = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_bottom, asTabBar.itemPaddingBottom);
+        asTabBar.itemPaddingLeft = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_left, asTabBar.itemPaddingLeft);
+        asTabBar.itemPaddingRight = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_right, asTabBar.itemPaddingRight);
+        asTabBar.itemPaddingHorizontal = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_horizontal, asTabBar.itemPaddingHorizontal);
+        asTabBar.itemPaddingVertical = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_vertical, asTabBar.itemPaddingVertical);
+        asTabBar.itemTextSizeSp = tArr.getInteger(R.styleable.ASTabBar_tab_title_textSize,asTabBar.itemTextSizeSp);
+        asTabBar.distributeEvenly = tArr.getBoolean(R.styleable.ASTabBar_tab_distribute_evenly,asTabBar.distributeEvenly);
+        asTabBar.titleOffset = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_title_offset, asTabBar.titleOffset);
+        asTabBar.setHasIndicator(tArr.getBoolean(R.styleable.ASTabBar_tab_has_indicator,asTabBar.hasIndicator));
+    }
 
     private void initViewPager(){
         viewPager = findViewById(R.id.viewpager);

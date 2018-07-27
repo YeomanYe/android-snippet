@@ -23,4 +23,10 @@
         <attr name="tab_title_textSize" format="integer"/>
     </declare-styleable>
     <!-- tabbar -->
+    <!-- tabpage -->
+    <attr name="tabpage_defStyle" format="reference"/>
+    <declare-styleable name="ASTabPage">
+        <attr name="tab_item_background" format="color"/>
+    </declare-styleable>
+    <!-- tabpage-->
 </resources>

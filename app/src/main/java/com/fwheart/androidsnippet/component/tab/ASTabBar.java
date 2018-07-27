@@ -38,6 +38,10 @@ import com.fwheart.androidsnippet.R;
 import com.fwheart.androidsnippet.helper.AssetHelper;
 import com.fwheart.androidsnippet.helper.SizeHelper;
 
+import org.w3c.dom.Attr;
+
+import java.util.List;
+
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
  * the user's scroll progress.
@@ -69,25 +73,24 @@ public class ASTabBar extends HorizontalScrollView {
     }
 
 
-    private int titleOffset = 20;
-    private int itemTextSizeSp = 12;
-    private int iconBottom = 0; //icon 的margin bottom
-    private int textBottom = 0;//text 的margin bottom
-    private boolean hasIndicator = false; //是否显示指示器
-    private boolean distributeEvenly = true; //是否均分空间
-    private ASTabItem[] tabItems;
+    public int titleOffset = 20;
+    public int itemTextSizeSp = 12;
+    public int iconBottom = 0; //icon 的margin bottom
+    public int textBottom = 0;//text 的margin bottom
+    public boolean hasIndicator = false; //是否显示指示器
+    public boolean distributeEvenly = true; //是否均分空间
+    public ASTabItem[] tabItems;
 
 
-    private int itemPadding = 16;
-    private int itemPaddingTop = 0;
-    private int itemPaddingLeft = 0;
-    private int itemPaddingRight = 0;
-    private int itemPaddingBottom = 0;
-    private int itemPaddingHorizontal = 0;
-    private int itemPaddingVertical = 0;
+    public int itemPadding = 16;
+    public int itemPaddingTop = 0;
+    public int itemPaddingLeft = 0;
+    public int itemPaddingRight = 0;
+    public int itemPaddingBottom = 0;
+    public int itemPaddingHorizontal = 0;
+    public int itemPaddingVertical = 0;
 
 
-    private int mTabViewLayoutId;
 
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<>();
@@ -118,11 +121,13 @@ public class ASTabBar extends HorizontalScrollView {
         mTabStrip = new ASTabStrip(context);
         mTabStrip.setSelectedIndicatorColors(Color.argb(0,0,0,0));
         addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        TypedArray tArr = context.obtainStyledAttributes(attrs,R.styleable.ASTabBar,defStyleAttr,0);
-        initAttr(tArr);
+
+        initAttr(attrs,defStyleAttr);
     }
 
-    private void initAttr(TypedArray tArr){
+    private void initAttr(AttributeSet attrs,int defStyleAttr){
+        Context context = getContext();
+        TypedArray tArr = context.obtainStyledAttributes(attrs,R.styleable.ASTabBar,defStyleAttr,0);
         itemPadding = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding, itemPadding);
         itemPaddingTop = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_top, itemPaddingTop);
         itemPaddingBottom = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_bottom, itemPaddingBottom);
@@ -134,6 +139,16 @@ public class ASTabBar extends HorizontalScrollView {
         distributeEvenly = tArr.getBoolean(R.styleable.ASTabBar_tab_distribute_evenly,distributeEvenly);
         titleOffset = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_title_offset, titleOffset);
         setHasIndicator(tArr.getBoolean(R.styleable.ASTabBar_tab_has_indicator,hasIndicator));
+    }
+
+    private void setItemPadding(int p,int pTop,int pBottom,int pLeft,int pRight,int pHorizontal,int pVertical){
+        itemPadding = p;
+        itemPaddingBottom = pBottom;
+        itemPaddingTop = pTop;
+        itemPaddingLeft = pLeft;
+        itemPaddingRight = pRight;
+        itemPaddingHorizontal = pHorizontal;
+        itemPaddingVertical = pVertical;
     }
 
     public void setHasIndicator(boolean hasIndicator){
@@ -182,14 +197,6 @@ public class ASTabBar extends HorizontalScrollView {
         mViewPagerPageChangeListener = listener;
     }
 
-    /**
-     * Set the custom layout to be inflated for the tab views.
-     *
-     * @param layoutResId Layout id to be inflated
-     */
-    public void setCustomTabView(int layoutResId) {
-        mTabViewLayoutId = layoutResId;
-    }
 
     /**
      * Sets the associated view pager. Note that the assumption here is that the pager content
@@ -197,7 +204,6 @@ public class ASTabBar extends HorizontalScrollView {
      */
     public void setViewPager(ViewPager viewPager) {
         mTabStrip.removeAllViews();
-
         mViewPager = viewPager;
     }
 
@@ -273,16 +279,8 @@ public class ASTabBar extends HorizontalScrollView {
         final OnClickListener tabClickListener = new TabClickListener();
 
         for (int i = 0; i < adapter.getCount(); i++) {
-            View tabView = null;
-            //使用自定义结构初始化
-            if (mTabViewLayoutId != 0) {
-                tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
-                        false);
-            }
             //使用默认结构初始化title
-            if (tabView == null) {
-                tabView = createDefaultTabView(getContext());
-            }
+            View tabView = createDefaultTabView(getContext());
 
             if (distributeEvenly) {
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tabView.getLayoutParams();

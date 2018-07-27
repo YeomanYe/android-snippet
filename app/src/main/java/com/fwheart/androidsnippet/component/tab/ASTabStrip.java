@@ -8,6 +8,10 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 指示器设置类
@@ -77,6 +81,15 @@ class ASTabStrip extends LinearLayout {
     public void setHasIndicator(boolean hasIndicator){
         this.hasIndicator = hasIndicator;
     }
+
+    public List<View> getChildren(){
+        List<View> list = new ArrayList<>();
+        for(int i=0,len=getChildCount();i<len;i++){
+            list.add(getChildAt(i));
+        }
+        return list;
+    }
+
 
     void onViewPagerPageChanged(int position, float positionOffset) {
         mSelectedPosition = position;
