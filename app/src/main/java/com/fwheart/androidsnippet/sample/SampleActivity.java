@@ -1,8 +1,7 @@
-package com.fwheart.androidsnippet.tekinarslan.material.sample;
+package com.fwheart.androidsnippet.sample;
 
 
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.fwheart.androidsnippet.R;
@@ -62,9 +60,9 @@ public class SampleActivity extends ActionBarActivity {
             }
         });*/
         ASTabPage asTabPage = (ASTabPage) findViewById(R.id.asTabPage);
-        ASTabPage.IconItem item1 = new ASTabPage.IconItem(R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(0));
-        ASTabPage.IconItem item2 = new ASTabPage.IconItem(R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(1));
-        ASTabPage.IconItem item3 = new ASTabPage.IconItem(R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(2));
+        ASTabPage.TextIconItem item1 = new ASTabPage.TextIconItem("tab1",R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(0));
+        ASTabPage.TextIconItem item2 = new ASTabPage.TextIconItem("tab2",R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(1));
+        ASTabPage.TextIconItem item3 = new ASTabPage.TextIconItem("tab3",R.mipmap.ic_launcher,R.drawable.ic_launcher,(Fragment)SampleFragment.newInstance(2));
 
         asTabPage.init(this,item1,item2,item3);
 
@@ -84,27 +82,23 @@ public class SampleActivity extends ActionBarActivity {
                     case 0:
                         mDrawerList.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
                         toolbar.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
-                        slidingTabLayout.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
                         mDrawerLayout.closeDrawer(Gravity.START);
                         break;
                     case 1:
                         mDrawerList.setBackgroundColor(getResources().getColor(R.color.red));
                         toolbar.setBackgroundColor(getResources().getColor(R.color.red));
-                        slidingTabLayout.setBackgroundColor(getResources().getColor(R.color.red));
                         mDrawerLayout.closeDrawer(Gravity.START);
 
                         break;
                     case 2:
                         mDrawerList.setBackgroundColor(getResources().getColor(R.color.blue));
                         toolbar.setBackgroundColor(getResources().getColor(R.color.blue));
-                        slidingTabLayout.setBackgroundColor(getResources().getColor(R.color.blue));
                         mDrawerLayout.closeDrawer(Gravity.START);
 
                         break;
                     case 3:
                         mDrawerList.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
                         toolbar.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
-                        slidingTabLayout.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
                         mDrawerLayout.closeDrawer(Gravity.START);
 
                         break;

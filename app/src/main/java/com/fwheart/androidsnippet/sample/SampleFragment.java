@@ -1,4 +1,4 @@
-package com.fwheart.androidsnippet.tekinarslan.material.sample;
+package com.fwheart.androidsnippet.sample;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

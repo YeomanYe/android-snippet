@@ -29,6 +29,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -77,7 +78,7 @@ public class ASTabBar extends HorizontalScrollView {
     public int itemTextSizeSp = 12;
     public int iconBottom = 0; //icon 的margin bottom
     public int textBottom = 0;//text 的margin bottom
-    public boolean hasIndicator = false; //是否显示指示器
+    public boolean hasIndicator = true; //是否显示指示器
     public boolean distributeEvenly = true; //是否均分空间
     public ASTabItem[] tabItems;
 
@@ -119,8 +120,8 @@ public class ASTabBar extends HorizontalScrollView {
 
 
         mTabStrip = new ASTabStrip(context);
-        mTabStrip.setSelectedIndicatorColors(Color.argb(0,0,0,0));
-        addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        mTabStrip.setSelectedIndicatorColors(Color.WHITE);
+        addView(mTabStrip, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         initAttr(attrs,defStyleAttr);
     }
@@ -282,11 +283,11 @@ public class ASTabBar extends HorizontalScrollView {
             //使用默认结构初始化title
             View tabView = createDefaultTabView(getContext());
 
-            if (distributeEvenly) {
+            /*if (distributeEvenly) {
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tabView.getLayoutParams();
                 lp.width = 0;
                 lp.weight = 1;
-            }
+            }*/
 
             tabView.setOnClickListener(tabClickListener);
             String desc = mContentDescriptions.get(i, null);

@@ -15,9 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:tab_title_textSize="10"
-        app:tab_item_padding="16dp"
-        app:tab_title_offset="20dp"
         android:background="?attr/colorPrimaryDark"
         android:paddingLeft="20dp"
         android:paddingRight="20dp" />

@@ -1,4 +1,4 @@
-package com.fwheart.androidsnippet.tekinarslan.material.sample;
+package com.fwheart.androidsnippet.sample;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;

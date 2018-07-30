@@ -7,8 +7,11 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.fwheart.androidsnippet.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +19,13 @@ import java.util.List;
 /**
  * 指示器设置类
  */
-class ASTabStrip extends LinearLayout {
+class ASTabStrip extends ViewGroup {
 
     private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 0;
     private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
     private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 3;
     private static final int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF33B5E5;
+    private int mItemSpaceInScrollMode;
 
     private final int mBottomBorderThickness;
     private final Paint mBottomBorderPaint;
@@ -65,6 +69,89 @@ class ASTabStrip extends LinearLayout {
         mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
         mSelectedIndicatorPaint = new Paint();
     }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
+//        heightSpecSize = 160;
+        List<View> childViews = getChildren();
+        int size = childViews.size();
+        int i;
+        int visibleChild = 0;
+        for (i = 0; i < size; i++) {
+            View child = childViews.get(i);
+            if (child.getVisibility() == VISIBLE) {
+                visibleChild++;
+            }
+        }
+        if (size == 0 || visibleChild == 0) {
+            setMeasuredDimension(widthSpecSize, heightSpecSize);
+            return;
+        }
+
+        int childHeight = heightSpecSize - getPaddingTop() - getPaddingBottom();
+        int childWidthMeasureSpec, childHeightMeasureSpec, resultWidthSize = 0;
+        if (true) {
+            resultWidthSize = widthSpecSize;
+            int modeFixItemWidth = widthSpecSize / visibleChild;
+            for (i = 0; i < size; i++) {
+                final View child = childViews.get(i);
+                if (child.getVisibility() != VISIBLE) {
+                    continue;
+                }
+                childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(modeFixItemWidth, MeasureSpec.EXACTLY);
+                childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(child.getMeasuredHeight(), MeasureSpec.EXACTLY);
+                child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+            }
+        } else {
+            for (i = 0; i < size; i++) {
+                final View child = childViews.get(i);
+                if (child.getVisibility() != VISIBLE) {
+                    continue;
+                }
+                childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSpecSize, MeasureSpec.AT_MOST);
+                childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY);
+                child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+                resultWidthSize += child.getMeasuredWidth() + mItemSpaceInScrollMode;
+            }
+            resultWidthSize -= mItemSpaceInScrollMode;
+        }
+
+        setMeasuredDimension(resultWidthSize, heightSpecSize);
+    }
+
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        List<View> childViews = getChildren();
+        int size = childViews.size();
+        int i;
+        int visibleChild = 0;
+        for (i = 0; i < size; i++) {
+            View child = childViews.get(i);
+            if (child.getVisibility() == VISIBLE) {
+                visibleChild++;
+            }
+        }
+
+        if (size == 0 || visibleChild == 0) {
+            return;
+        }
+
+        int usedLeft = getPaddingLeft();
+        for (i = 0; i < size; i++) {
+            View childView = childViews.get(i);
+            if (childView.getVisibility() != VISIBLE) {
+                continue;
+            }
+            final int childMeasureWidth = childView.getMeasuredWidth();
+            childView.layout(usedLeft, getPaddingTop(), usedLeft + childMeasureWidth, b - t - getPaddingBottom());
+            usedLeft = usedLeft + childMeasureWidth;
+        }
+    }
+
 
     void setCustomTabColorizer(ASTabBar.TabColorizer customTabColorizer) {
         mCustomTabColorizer = customTabColorizer;
