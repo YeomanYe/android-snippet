@@ -26,7 +26,6 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -38,10 +37,6 @@ import android.widget.TextView;
 import com.fwheart.androidsnippet.R;
 import com.fwheart.androidsnippet.helper.AssetHelper;
 import com.fwheart.androidsnippet.helper.SizeHelper;
-
-import org.w3c.dom.Attr;
-
-import java.util.List;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -78,8 +73,6 @@ public class ASTabBar extends HorizontalScrollView {
     public int itemTextSizeSp = 12;
     public int iconBottom = 0; //icon 的margin bottom
     public int textBottom = 0;//text 的margin bottom
-    public boolean hasIndicator = true; //是否显示指示器
-    public boolean distributeEvenly = true; //是否均分空间
     public ASTabItem[] tabItems;
 
 
@@ -97,36 +90,35 @@ public class ASTabBar extends HorizontalScrollView {
     private SparseArray<String> mContentDescriptions = new SparseArray<>();
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
 
-    private ASTabStrip mTabStrip;
+    private ASTabStrip tabStrip;
 
     public ASTabBar(Context context) {
         this(context, null);
     }
 
     public ASTabBar(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.tabbar_defStyle);
+        this(context, attrs, R.attr.tab_bar_defStyle);
     }
 
     public ASTabBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context,attrs,defStyleAttr);
+        initView(context);
+        initAttr(attrs,defStyleAttr);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void initView(Context context) {
         // Disable the Scroll Bar
         setHorizontalScrollBarEnabled(false);
         // Make sure that the Tab Strips fills this View
         setFillViewport(true);
 
 
-        mTabStrip = new ASTabStrip(context);
-        mTabStrip.setSelectedIndicatorColors(Color.WHITE);
-        addView(mTabStrip, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-        initAttr(attrs,defStyleAttr);
+        tabStrip = new ASTabStrip(context);
+        tabStrip.setSelectedIndicatorColors(Color.WHITE);
+        addView(tabStrip, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
-    private void initAttr(AttributeSet attrs,int defStyleAttr){
+    public void initAttr(AttributeSet attrs,int defStyleAttr){
         Context context = getContext();
         TypedArray tArr = context.obtainStyledAttributes(attrs,R.styleable.ASTabBar,defStyleAttr,0);
         itemPadding = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding, itemPadding);
@@ -137,9 +129,8 @@ public class ASTabBar extends HorizontalScrollView {
         itemPaddingHorizontal = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_horizontal, itemPaddingHorizontal);
         itemPaddingVertical = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_vertical, itemPaddingVertical);
         itemTextSizeSp = tArr.getInteger(R.styleable.ASTabBar_tab_title_textSize,itemTextSizeSp);
-        distributeEvenly = tArr.getBoolean(R.styleable.ASTabBar_tab_distribute_evenly,distributeEvenly);
         titleOffset = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_title_offset, titleOffset);
-        setHasIndicator(tArr.getBoolean(R.styleable.ASTabBar_tab_has_indicator,hasIndicator));
+        tabStrip.initAttr(attrs,defStyleAttr);
     }
 
     private void setItemPadding(int p,int pTop,int pBottom,int pLeft,int pRight,int pHorizontal,int pVertical){
@@ -153,7 +144,7 @@ public class ASTabBar extends HorizontalScrollView {
     }
 
     public void setHasIndicator(boolean hasIndicator){
-        mTabStrip.setHasIndicator(hasIndicator);
+        tabStrip.setHasIndicator(hasIndicator);
     }
 
     public ASTabItem[] getTabItems() {
@@ -172,19 +163,16 @@ public class ASTabBar extends HorizontalScrollView {
      * similar effects.
      */
     public void setCustomTabColorizer(TabColorizer tabColorizer) {
-        mTabStrip.setCustomTabColorizer(tabColorizer);
+        tabStrip.setCustomTabColorizer(tabColorizer);
     }
 
-    public void setDistributeEvenly(boolean distributeEvenly) {
-        this.distributeEvenly = distributeEvenly;
-    }
 
     /**
      * Sets the colors to be used for indicating the selected tab. These colors are treated as a
      * circular array. Providing one color will mean that all tabs are indicated with the same color.
      */
     public void setSelectedIndicatorColors(int... colors) {
-        mTabStrip.setSelectedIndicatorColors(colors);
+        tabStrip.setSelectedIndicatorColors(colors);
     }
 
     /**
@@ -204,7 +192,7 @@ public class ASTabBar extends HorizontalScrollView {
      * (number of tabs and tab titles) does not change after this call has been made.
      */
     public void setViewPager(ViewPager viewPager) {
-        mTabStrip.removeAllViews();
+        tabStrip.removeAllViews();
         mViewPager = viewPager;
     }
 
@@ -219,7 +207,7 @@ public class ASTabBar extends HorizontalScrollView {
      * Create a default view to be used for tabs. This is called if a custom tab view is not set via
      * .
      */
-    protected LinearLayout createDefaultTabView(Context context) {
+    protected LinearLayout createTabView(Context context) {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         if(itemPaddingLeft == 0 && itemPaddingRight == 0){
@@ -281,13 +269,7 @@ public class ASTabBar extends HorizontalScrollView {
 
         for (int i = 0; i < adapter.getCount(); i++) {
             //使用默认结构初始化title
-            View tabView = createDefaultTabView(getContext());
-
-            /*if (distributeEvenly) {
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tabView.getLayoutParams();
-                lp.width = 0;
-                lp.weight = 1;
-            }*/
+            View tabView = createTabView(getContext());
 
             tabView.setOnClickListener(tabClickListener);
             String desc = mContentDescriptions.get(i, null);
@@ -295,7 +277,7 @@ public class ASTabBar extends HorizontalScrollView {
                 tabView.setContentDescription(desc);
             }
 
-            mTabStrip.addView(tabView);
+            tabStrip.addView(tabView);
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
             }
@@ -303,8 +285,8 @@ public class ASTabBar extends HorizontalScrollView {
     }
 
     private void resetTint(){
-        for(int i=0,count = mTabStrip.getChildCount();i<count;i++){
-            LinearLayout linearLayout = (LinearLayout)mTabStrip.getChildAt(i);
+        for(int i = 0, count = tabStrip.getChildCount(); i<count; i++){
+            LinearLayout linearLayout = (LinearLayout) tabStrip.getChildAt(i);
             ImageView icon = linearLayout.findViewById(R.id.tab_item_icon);
             ASTabItem tabItem = tabItems[i];
             if(ASTabPage.IconItem.class.isInstance(tabItem)){
@@ -317,7 +299,7 @@ public class ASTabBar extends HorizontalScrollView {
 
     private void setTintAtIndex(int index){
         resetTint();
-        LinearLayout linearLayout = (LinearLayout) mTabStrip.getChildAt(index);
+        LinearLayout linearLayout = (LinearLayout) tabStrip.getChildAt(index);
         ImageView icon = linearLayout.findViewById(R.id.tab_item_icon);
         ASTabItem tabItem = tabItems[index];
         if(ASTabPage.IconItem.class.isInstance(tabItem)){
@@ -341,12 +323,12 @@ public class ASTabBar extends HorizontalScrollView {
     }
 
     private void scrollToTab(int tabIndex, int positionOffset) {
-        final int tabStripChildCount = mTabStrip.getChildCount();
+        final int tabStripChildCount = tabStrip.getChildCount();
         if (tabStripChildCount == 0 || tabIndex < 0 || tabIndex >= tabStripChildCount) {
             return;
         }
 
-        View selectedChild = mTabStrip.getChildAt(tabIndex);
+        View selectedChild = tabStrip.getChildAt(tabIndex);
         if (selectedChild != null) {
             int targetScrollX = selectedChild.getLeft() + positionOffset;
 
@@ -364,14 +346,14 @@ public class ASTabBar extends HorizontalScrollView {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            int tabStripChildCount = mTabStrip.getChildCount();
+            int tabStripChildCount = tabStrip.getChildCount();
             if ((tabStripChildCount == 0) || (position < 0) || (position >= tabStripChildCount)) {
                 return;
             }
 
-            mTabStrip.onViewPagerPageChanged(position, positionOffset);
+            tabStrip.onViewPagerPageChanged(position, positionOffset);
 
-            View selectedTitle = mTabStrip.getChildAt(position);
+            View selectedTitle = tabStrip.getChildAt(position);
             int extraOffset = (selectedTitle != null)
                     ? (int) (positionOffset * selectedTitle.getWidth())
                     : 0;
@@ -395,12 +377,12 @@ public class ASTabBar extends HorizontalScrollView {
         @Override
         public void onPageSelected(int position) {
             if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
-                mTabStrip.onViewPagerPageChanged(position, 0f);
+                tabStrip.onViewPagerPageChanged(position, 0f);
                 scrollToTab(position, 0);
                 setTintAtIndex(position);
             }
-            for (int i = 0; i < mTabStrip.getChildCount(); i++) {
-                mTabStrip.getChildAt(i).setSelected(position == i);
+            for (int i = 0; i < tabStrip.getChildCount(); i++) {
+                tabStrip.getChildAt(i).setSelected(position == i);
             }
             if (mViewPagerPageChangeListener != null) {
                 mViewPagerPageChangeListener.onPageSelected(position);
@@ -412,8 +394,8 @@ public class ASTabBar extends HorizontalScrollView {
     private class TabClickListener implements OnClickListener {
         @Override
         public void onClick(View v) {
-            for (int i = 0; i < mTabStrip.getChildCount(); i++) {
-                if (v == mTabStrip.getChildAt(i)) {
+            for (int i = 0; i < tabStrip.getChildCount(); i++) {
+                if (v == tabStrip.getChildAt(i)) {
                     mViewPager.setCurrentItem(i);
                     return;
                 }

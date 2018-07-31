@@ -1,6 +1,7 @@
 package com.fwheart.androidsnippet.component.tab;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * 指示器设置类
  */
-class ASTabStrip extends ViewGroup {
+class ASTabStrip extends LinearLayout {
 
     private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 0;
     private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
@@ -37,11 +38,20 @@ class ASTabStrip extends ViewGroup {
 
     private int mSelectedPosition;
     private float mSelectionOffset;
-    private boolean hasIndicator;
+    private boolean hasIndicator = true;
 
     private ASTabBar.TabColorizer mCustomTabColorizer;
     private final ASTabStrip.SimpleTabColorizer mDefaultTabColorizer;
-
+    private StripType stripType = StripType.FIXED;
+    enum StripType{
+        FIXED,SCROLLABLE
+    }
+    public void initAttr(AttributeSet attrs,int defStyleAttr){
+        Context context = getContext();
+        TypedArray tArr = context.obtainStyledAttributes(attrs,R.styleable.ASTabStrip,defStyleAttr,0);
+        hasIndicator = tArr.getBoolean(R.styleable.ASTabStrip_tab_strip_indicator,hasIndicator);
+        stripType = StripType.values()[tArr.getInt(R.styleable.ASTabStrip_tab_strip_type,stripType.ordinal())];
+    }
     ASTabStrip(Context context) {
         this(context, null);
     }
@@ -70,11 +80,18 @@ class ASTabStrip extends ViewGroup {
         mSelectedIndicatorPaint = new Paint();
     }
 
+    public void setStripTypeByVal(int val){
+        stripType = StripType.values()[val];
+    }
+    public int getStripTypeVal(){
+        return stripType.ordinal();
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+        super.onMeasure(widthMeasureSpec,heightMeasureSpec);
         int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
+        int heightSpecSize = getMeasuredHeight();
 //        heightSpecSize = 160;
         List<View> childViews = getChildren();
         int size = childViews.size();
@@ -93,7 +110,7 @@ class ASTabStrip extends ViewGroup {
 
         int childHeight = heightSpecSize - getPaddingTop() - getPaddingBottom();
         int childWidthMeasureSpec, childHeightMeasureSpec, resultWidthSize = 0;
-        if (true) {
+        if (stripType == StripType.FIXED) {
             resultWidthSize = widthSpecSize;
             int modeFixItemWidth = widthSpecSize / visibleChild;
             for (i = 0; i < size; i++) {
@@ -119,7 +136,7 @@ class ASTabStrip extends ViewGroup {
             resultWidthSize -= mItemSpaceInScrollMode;
         }
 
-        setMeasuredDimension(resultWidthSize, heightSpecSize);
+        setMeasuredDimension(resultWidthSize,getMeasuredHeight());
     }
 
 
@@ -148,7 +165,7 @@ class ASTabStrip extends ViewGroup {
             }
             final int childMeasureWidth = childView.getMeasuredWidth();
             childView.layout(usedLeft, getPaddingTop(), usedLeft + childMeasureWidth, b - t - getPaddingBottom());
-            usedLeft = usedLeft + childMeasureWidth;
+            usedLeft = usedLeft + childMeasureWidth + (stripType == StripType.SCROLLABLE ? mItemSpaceInScrollMode : 0);
         }
     }
 

@@ -2,17 +2,13 @@ package com.fwheart.androidsnippet.component.tab;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.fwheart.androidsnippet.R;
 
@@ -20,12 +16,18 @@ public class ASTabPage extends FrameLayout {
     private FrameLayout rootLayout;
     private ViewPager viewPager;
     private ASTabBar asTabBar;
+    private int tabBarBg;
     private ASTabItem[] asTabItems;
+    private TabDir tabDir = TabDir.BOTTOM;
+    enum TabDir{
+        TOP,BOTTOM
+    }
+
     public ASTabPage(Context context){
         this(context,null);
     }
     public ASTabPage(Context context, AttributeSet attrs){
-        this(context,attrs,R.attr.tabpage_defStyle);
+        this(context,attrs,R.attr.tab_page_defStyle);
     }
     public ASTabPage(Context context,AttributeSet attrs,int defStyleAttr){
         super(context,attrs,defStyleAttr);
@@ -37,18 +39,11 @@ public class ASTabPage extends FrameLayout {
 
     private void initAttr(AttributeSet attrs,int defStyleAttr){
         Context context = getContext();
-        TypedArray tArr = context.obtainStyledAttributes(attrs,R.styleable.ASTabBar,defStyleAttr,0);
-        asTabBar.itemPadding = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding, asTabBar.itemPadding);
-        asTabBar.itemPaddingTop = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_top, asTabBar.itemPaddingTop);
-        asTabBar.itemPaddingBottom = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_bottom, asTabBar.itemPaddingBottom);
-        asTabBar.itemPaddingLeft = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_left, asTabBar.itemPaddingLeft);
-        asTabBar.itemPaddingRight = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_right, asTabBar.itemPaddingRight);
-        asTabBar.itemPaddingHorizontal = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_horizontal, asTabBar.itemPaddingHorizontal);
-        asTabBar.itemPaddingVertical = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_vertical, asTabBar.itemPaddingVertical);
-        asTabBar.itemTextSizeSp = tArr.getInteger(R.styleable.ASTabBar_tab_title_textSize,asTabBar.itemTextSizeSp);
-        asTabBar.distributeEvenly = tArr.getBoolean(R.styleable.ASTabBar_tab_distribute_evenly,asTabBar.distributeEvenly);
-        asTabBar.titleOffset = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_title_offset, asTabBar.titleOffset);
-        asTabBar.setHasIndicator(tArr.getBoolean(R.styleable.ASTabBar_tab_has_indicator,asTabBar.hasIndicator));
+        TypedArray tArr = context.obtainStyledAttributes(attrs,R.styleable.ASTabPage,defStyleAttr,0);
+        tabBarBg = tArr.getInt(R.styleable.ASTabPage_tab_bar_background,tabBarBg);
+        asTabBar.setBackgroundColor(tabBarBg);
+        tabDir = TabDir.values()[tArr.getInt(R.styleable.ASTabPage_tab_bar_direction,tabDir.ordinal())];
+        asTabBar.initAttr(attrs,defStyleAttr);
     }
 
     private void initViewPager(){
@@ -124,13 +119,22 @@ public class ASTabPage extends FrameLayout {
 
     public void init(FragmentActivity fragmentActivity,ASTabItem...items){
         asTabItems = items;
-
         //设置viewpager自适应间距
         asTabBar.post(new Runnable() {
             @Override
             public void run() {
-                LayoutParams lp = (FrameLayout.LayoutParams)viewPager.getLayoutParams();
-                lp.setMargins(0,0,0,asTabBar.getHeight());
+                LayoutParams pageLp = (FrameLayout.LayoutParams)viewPager.getLayoutParams();
+                LayoutParams tabBarLp = (FrameLayout.LayoutParams) asTabBar.getLayoutParams();
+                switch (tabDir){
+                    case TOP:
+                        tabBarLp.gravity = Gravity.TOP;
+                        pageLp.setMargins(0,asTabBar.getHeight(),0,0);
+                        break;
+                    case BOTTOM:
+                        tabBarLp.gravity = Gravity.BOTTOM;
+                        pageLp.setMargins(0,0,0,asTabBar.getHeight());
+                        break;
+                }
             }
         });
 

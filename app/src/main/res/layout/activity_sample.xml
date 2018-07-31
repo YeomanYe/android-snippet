@@ -18,7 +18,7 @@
 
         <com.fwheart.androidsnippet.component.tab.ASTabPage
             android:id="@+id/asTabPage"
-            app:tab_item_background="@color/white"
+            app:tab_item_padding="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </com.fwheart.androidsnippet.component.tab.ASTabPage>
