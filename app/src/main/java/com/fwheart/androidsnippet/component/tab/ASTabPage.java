@@ -40,7 +40,7 @@ public class ASTabPage extends FrameLayout {
     private void initAttr(AttributeSet attrs,int defStyleAttr){
         Context context = getContext();
         TypedArray tArr = context.obtainStyledAttributes(attrs,R.styleable.ASTabPage,defStyleAttr,0);
-        tabBarBg = tArr.getInt(R.styleable.ASTabPage_tab_bar_background,tabBarBg);
+        tabBarBg = tArr.getColor(R.styleable.ASTabPage_tab_bar_background,tabBarBg);
         asTabBar.setBackgroundColor(tabBarBg);
         tabDir = TabDir.values()[tArr.getInt(R.styleable.ASTabPage_tab_bar_direction,tabDir.ordinal())];
         asTabBar.initAttr(attrs,defStyleAttr);
@@ -137,7 +137,6 @@ public class ASTabPage extends FrameLayout {
                 }
             }
         });
-
         viewPager.setAdapter(new ASTabPagerAdapter(fragmentActivity.getSupportFragmentManager(),asTabItems));
         asTabBar.setTabItems(items);
         asTabBar.init();

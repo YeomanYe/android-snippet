@@ -8,9 +8,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
 
@@ -25,8 +23,6 @@ class ASTabStrip extends LinearLayout {
     private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 0;
     private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
     private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 3;
-    private static final int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF33B5E5;
-    private int mItemSpaceInScrollMode;
 
     private final int mBottomBorderThickness;
     private final Paint mBottomBorderPaint;
@@ -39,9 +35,9 @@ class ASTabStrip extends LinearLayout {
     private int mSelectedPosition;
     private float mSelectionOffset;
     private boolean hasIndicator = true;
+    private int itemSpace = 0;
+    private int indicatorColor = Color.WHITE;//只是器颜色
 
-    private ASTabBar.TabColorizer mCustomTabColorizer;
-    private final ASTabStrip.SimpleTabColorizer mDefaultTabColorizer;
     private StripType stripType = StripType.FIXED;
     enum StripType{
         FIXED,SCROLLABLE
@@ -69,8 +65,6 @@ class ASTabStrip extends LinearLayout {
         mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor,
                 DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
 
-        mDefaultTabColorizer = new ASTabStrip.SimpleTabColorizer();
-        mDefaultTabColorizer.setIndicatorColors(DEFAULT_SELECTED_INDICATOR_COLOR);
 
         mBottomBorderThickness = (int) (DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS * density);
         mBottomBorderPaint = new Paint();
@@ -78,13 +72,6 @@ class ASTabStrip extends LinearLayout {
 
         mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
         mSelectedIndicatorPaint = new Paint();
-    }
-
-    public void setStripTypeByVal(int val){
-        stripType = StripType.values()[val];
-    }
-    public int getStripTypeVal(){
-        return stripType.ordinal();
     }
 
     @Override
@@ -131,9 +118,9 @@ class ASTabStrip extends LinearLayout {
                 childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSpecSize, MeasureSpec.AT_MOST);
                 childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY);
                 child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
-                resultWidthSize += child.getMeasuredWidth() + mItemSpaceInScrollMode;
+                resultWidthSize += child.getMeasuredWidth() + itemSpace;
             }
-            resultWidthSize -= mItemSpaceInScrollMode;
+            resultWidthSize -= itemSpace;
         }
 
         setMeasuredDimension(resultWidthSize,getMeasuredHeight());
@@ -165,26 +152,11 @@ class ASTabStrip extends LinearLayout {
             }
             final int childMeasureWidth = childView.getMeasuredWidth();
             childView.layout(usedLeft, getPaddingTop(), usedLeft + childMeasureWidth, b - t - getPaddingBottom());
-            usedLeft = usedLeft + childMeasureWidth + (stripType == StripType.SCROLLABLE ? mItemSpaceInScrollMode : 0);
+            usedLeft = usedLeft + childMeasureWidth + (stripType == StripType.SCROLLABLE ? itemSpace : 0);
         }
     }
 
 
-    void setCustomTabColorizer(ASTabBar.TabColorizer customTabColorizer) {
-        mCustomTabColorizer = customTabColorizer;
-        invalidate();
-    }
-
-    void setSelectedIndicatorColors(int... colors) {
-        // Make sure that the custom colorizer is removed
-        mCustomTabColorizer = null;
-        mDefaultTabColorizer.setIndicatorColors(colors);
-        invalidate();
-    }
-
-    public void setHasIndicator(boolean hasIndicator){
-        this.hasIndicator = hasIndicator;
-    }
 
     public List<View> getChildren(){
         List<View> list = new ArrayList<>();
@@ -205,22 +177,15 @@ class ASTabStrip extends LinearLayout {
     protected void onDraw(Canvas canvas) {
         final int height = getHeight();
         final int childCount = getChildCount();
-        final ASTabBar.TabColorizer tabColorizer = mCustomTabColorizer != null
-                ? mCustomTabColorizer
-                : mDefaultTabColorizer;
 
         // Thick colored underline below the current selection
         if (childCount > 0 && hasIndicator) {
             View selectedTitle = getChildAt(mSelectedPosition);
             int left = selectedTitle.getLeft();
             int right = selectedTitle.getRight();
-            int color = tabColorizer.getIndicatorColor(mSelectedPosition);
 
             if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
-                int nextColor = tabColorizer.getIndicatorColor(mSelectedPosition + 1);
-                if (color != nextColor) {
-                    color = blendColors(nextColor, color, mSelectionOffset);
-                }
+
 
                 // Draw the selection partway between the tabs
                 View nextTitle = getChildAt(mSelectedPosition + 1);
@@ -230,7 +195,7 @@ class ASTabStrip extends LinearLayout {
                         (1.0f - mSelectionOffset) * right);
             }
 
-            mSelectedIndicatorPaint.setColor(color);
+            mSelectedIndicatorPaint.setColor(indicatorColor);
 
             canvas.drawRect(left, height - mSelectedIndicatorThickness, right, height, mSelectedIndicatorPaint);
         }
@@ -260,16 +225,4 @@ class ASTabStrip extends LinearLayout {
         return Color.rgb((int) r, (int) g, (int) b);
     }
 
-    private static class SimpleTabColorizer implements ASTabBar.TabColorizer {
-        private int[] mIndicatorColors;
-
-        @Override
-        public final int getIndicatorColor(int position) {
-            return mIndicatorColors[position % mIndicatorColors.length];
-        }
-
-        void setIndicatorColors(int... colors) {
-            mIndicatorColors = colors;
-        }
-    }
 }

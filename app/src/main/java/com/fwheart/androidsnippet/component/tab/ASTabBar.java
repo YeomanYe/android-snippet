@@ -23,7 +23,6 @@ import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -47,34 +46,23 @@ import com.fwheart.androidsnippet.helper.SizeHelper;
  * {@link #setViewPager(android.support.v4.view.ViewPager)} providing it the ViewPager this layout is being used for.
  * <p>
  * The colors can be customized in two ways. The first and simplest is to provide an array of colors
- * via {@link #setSelectedIndicatorColors(int...)}. The
- * alternative is via the {@link TabColorizer} interface which provides you complete control over
+ * via . The
+ * alternative is via the {@link} interface which provides you complete control over
  * which color is used for any individual position.
  * <p>
  * The views used as tabs can be customized by calling ,
  * providing the layout ID of your custom layout.
  */
 public class ASTabBar extends HorizontalScrollView {
-    /**
-     * Allows complete control over the colors drawn in the tab layout. Set with
-     * {@link #setCustomTabColorizer(TabColorizer)}.
-     */
-    public interface TabColorizer {
-
-        /**
-         * @return return the color of the indicator used when {@code position} is selected.
-         */
-        int getIndicatorColor(int position);
-
-    }
 
 
-    public int titleOffset = 20;
+
+    public int tabOffset = 20;
     public int itemTextSizeSp = 12;
     public int iconBottom = 0; //icon 的margin bottom
     public int textBottom = 0;//text 的margin bottom
     public ASTabItem[] tabItems;
-
+    public int textColor = Color.WHITE;
 
     public int itemPadding = 16;
     public int itemPaddingTop = 0;
@@ -86,9 +74,8 @@ public class ASTabBar extends HorizontalScrollView {
 
 
 
-    private ViewPager mViewPager;
-    private SparseArray<String> mContentDescriptions = new SparseArray<>();
-    private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
+    private ViewPager viewPager;
+    private ViewPager.OnPageChangeListener onPageChangeListener;
 
     private ASTabStrip tabStrip;
 
@@ -114,7 +101,6 @@ public class ASTabBar extends HorizontalScrollView {
 
 
         tabStrip = new ASTabStrip(context);
-        tabStrip.setSelectedIndicatorColors(Color.WHITE);
         addView(tabStrip, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
@@ -128,24 +114,13 @@ public class ASTabBar extends HorizontalScrollView {
         itemPaddingRight = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_right, itemPaddingRight);
         itemPaddingHorizontal = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_horizontal, itemPaddingHorizontal);
         itemPaddingVertical = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_item_padding_vertical, itemPaddingVertical);
-        itemTextSizeSp = tArr.getInteger(R.styleable.ASTabBar_tab_title_textSize,itemTextSizeSp);
-        titleOffset = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_title_offset, titleOffset);
+        itemTextSizeSp = tArr.getInteger(R.styleable.ASTabBar_tab_text_size,itemTextSizeSp);
+        tabOffset = tArr.getDimensionPixelSize(R.styleable.ASTabBar_tab_offset, tabOffset);
+        textColor = tArr.getColor(R.styleable.ASTabBar_tab_text_color,textColor);
         tabStrip.initAttr(attrs,defStyleAttr);
     }
 
-    private void setItemPadding(int p,int pTop,int pBottom,int pLeft,int pRight,int pHorizontal,int pVertical){
-        itemPadding = p;
-        itemPaddingBottom = pBottom;
-        itemPaddingTop = pTop;
-        itemPaddingLeft = pLeft;
-        itemPaddingRight = pRight;
-        itemPaddingHorizontal = pHorizontal;
-        itemPaddingVertical = pVertical;
-    }
 
-    public void setHasIndicator(boolean hasIndicator){
-        tabStrip.setHasIndicator(hasIndicator);
-    }
 
     public ASTabItem[] getTabItems() {
         return tabItems;
@@ -155,25 +130,6 @@ public class ASTabBar extends HorizontalScrollView {
         this.tabItems = tabItems;
     }
 
-    /**
-     * Set the custom {@link ASTabBar.TabColorizer} to be used.
-     *
-     * If you only require simple custmisation then you can use
-     * {@link #setSelectedIndicatorColors(int...)} to achieve
-     * similar effects.
-     */
-    public void setCustomTabColorizer(TabColorizer tabColorizer) {
-        tabStrip.setCustomTabColorizer(tabColorizer);
-    }
-
-
-    /**
-     * Sets the colors to be used for indicating the selected tab. These colors are treated as a
-     * circular array. Providing one color will mean that all tabs are indicated with the same color.
-     */
-    public void setSelectedIndicatorColors(int... colors) {
-        tabStrip.setSelectedIndicatorColors(colors);
-    }
 
     /**
      * Set the {@link android.support.v4.view.ViewPager.OnPageChangeListener}. When using {@link ASTabBar} you are
@@ -183,7 +139,7 @@ public class ASTabBar extends HorizontalScrollView {
      * @see android.support.v4.view.ViewPager#setOnPageChangeListener(android.support.v4.view.ViewPager.OnPageChangeListener)
      */
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        mViewPagerPageChangeListener = listener;
+        onPageChangeListener = listener;
     }
 
 
@@ -193,12 +149,12 @@ public class ASTabBar extends HorizontalScrollView {
      */
     public void setViewPager(ViewPager viewPager) {
         tabStrip.removeAllViews();
-        mViewPager = viewPager;
+        this.viewPager = viewPager;
     }
 
     public void init(){
-        if (mViewPager != null) {
-            mViewPager.setOnPageChangeListener(new InternalViewPagerListener());
+        if (viewPager != null) {
+            viewPager.setOnPageChangeListener(new InternalViewPagerListener());
             populateTabStrip();
         }
     }
@@ -247,7 +203,7 @@ public class ASTabBar extends HorizontalScrollView {
         textView.setTypeface(Typeface.DEFAULT_BOLD);
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        textView.setTextColor(Color.WHITE);
+        textView.setTextColor(textColor);
         textView.setBackgroundResource(AssetHelper.getResId(context, R.attr.selectableItemBackground));
         textView.setBottom(SizeHelper.dp2px(context,textBottom));
         return textView;
@@ -264,7 +220,7 @@ public class ASTabBar extends HorizontalScrollView {
     }
 
     private void populateTabStrip() {
-        final PagerAdapter adapter = mViewPager.getAdapter();
+        final PagerAdapter adapter = viewPager.getAdapter();
         final OnClickListener tabClickListener = new TabClickListener();
 
         for (int i = 0; i < adapter.getCount(); i++) {
@@ -272,13 +228,9 @@ public class ASTabBar extends HorizontalScrollView {
             View tabView = createTabView(getContext());
 
             tabView.setOnClickListener(tabClickListener);
-            String desc = mContentDescriptions.get(i, null);
-            if (desc != null) {
-                tabView.setContentDescription(desc);
-            }
 
             tabStrip.addView(tabView);
-            if (i == mViewPager.getCurrentItem()) {
+            if (i == viewPager.getCurrentItem()) {
                 tabView.setSelected(true);
             }
         }
@@ -309,16 +261,13 @@ public class ASTabBar extends HorizontalScrollView {
         }
     }
 
-    public void setContentDescription(int i, String desc) {
-        mContentDescriptions.put(i, desc);
-    }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-        if (mViewPager != null) {
-            scrollToTab(mViewPager.getCurrentItem(), 0);
+        if (viewPager != null) {
+            scrollToTab(viewPager.getCurrentItem(), 0);
         }
     }
 
@@ -334,7 +283,7 @@ public class ASTabBar extends HorizontalScrollView {
 
             if (tabIndex > 0 || positionOffset > 0) {
                 // If we're not at the first child and are mid-scroll, make sure we obey the offset
-                targetScrollX -= titleOffset;
+                targetScrollX -= tabOffset;
             }
 
             scrollTo(targetScrollX, 0);
@@ -359,8 +308,8 @@ public class ASTabBar extends HorizontalScrollView {
                     : 0;
             scrollToTab(position, extraOffset);
             setTintAtIndex(position);
-            if (mViewPagerPageChangeListener != null) {
-                mViewPagerPageChangeListener.onPageScrolled(position, positionOffset,
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageScrolled(position, positionOffset,
                         positionOffsetPixels);
             }
         }
@@ -369,8 +318,8 @@ public class ASTabBar extends HorizontalScrollView {
         public void onPageScrollStateChanged(int state) {
             mScrollState = state;
 
-            if (mViewPagerPageChangeListener != null) {
-                mViewPagerPageChangeListener.onPageScrollStateChanged(state);
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageScrollStateChanged(state);
             }
         }
 
@@ -384,8 +333,8 @@ public class ASTabBar extends HorizontalScrollView {
             for (int i = 0; i < tabStrip.getChildCount(); i++) {
                 tabStrip.getChildAt(i).setSelected(position == i);
             }
-            if (mViewPagerPageChangeListener != null) {
-                mViewPagerPageChangeListener.onPageSelected(position);
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageSelected(position);
             }
         }
 
@@ -396,7 +345,7 @@ public class ASTabBar extends HorizontalScrollView {
         public void onClick(View v) {
             for (int i = 0; i < tabStrip.getChildCount(); i++) {
                 if (v == tabStrip.getChildAt(i)) {
-                    mViewPager.setCurrentItem(i);
+                    viewPager.setCurrentItem(i);
                     return;
                 }
             }
