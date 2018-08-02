@@ -45,4 +45,22 @@
         <attr name="tab_strip_indicator_color" format="color"/>
     </declare-styleable>
     <!-- tabstrip -->
+
+    <!-- section page -->
+    <attr name="list_page_defStyle" format="reference"/>
+    <declare-styleable name="ASSectionListPage">
+    </declare-styleable>
+    <!-- section page -->
+
+    <!-- section -->
+    <attr name="list_defStyle" format="reference"/>
+    <declare-styleable name="ASSection">
+    </declare-styleable>
+    <!-- section -->
+
+    <!-- section item-->
+    <attr name="list_item_defStyle" format="reference"/>
+    <declare-styleable name="ASSectionItem">
+    </declare-styleable>
+    <!-- section item-->
 </resources>
