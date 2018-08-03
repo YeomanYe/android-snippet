@@ -35,16 +35,16 @@ public class ASSectionListPage extends FrameLayout {
     private void initView(Context context){
         LayoutInflater.from(context).inflate(R.layout.comp_section_page,this,true);
         container = findViewById(R.id.section_container);
-//        ASSectionItem asListItem = null;
-        /*for(int i=0;i<15;i++){
-            asListItem = new ASSectionItem(context);
-            asList.addView(asListItem);
-        }*/
     }
     public ASSection newSection(Context context){
         ASSection section = new ASSection(context);
         sections.add(section);
-        container.addView(section);
         return section;
+    }
+    public void init(Context context){
+        for(ASSection section:sections){
+            container.addView(section);
+            section.init(context);
+        }
     }
 }
