@@ -5,8 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
 
@@ -16,6 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ASSection extends LinearLayout{
+    private TextView titleView,subTitleView;
+    private LinearLayout container;
+    private RecyclerView recyclerView;
+    private List<ASSectionItem> sectionItems = new ArrayList<>();
     public ASSection(Context context) {
         this(context,null);
     }
@@ -32,21 +39,32 @@ public class ASSection extends LinearLayout{
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context);
     }
+    public ASSection setTitle(String text){
+        titleView.setText(text);
+        titleView.setVisibility(VISIBLE);
+        return this;
+    }
+
+    public ASSection setSubTitle(String text){
+        subTitleView.setText(text);
+        subTitleView.setVisibility(VISIBLE);
+        return this;
+    }
 
     private void initView(Context context){
         LayoutInflater.from(context).inflate(R.layout.comp_section,this,true);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-        List<Map> maps = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            Map map = new HashMap();
-            map.put("accessory",ASSectionItem.AccType.ACCESSORY_TYPE_CHEVRON);
-            maps.add(map);
-        }
-        recyclerView.setAdapter(new ASSectionItemAdaptor(maps));
+        this.setOrientation(VERTICAL);
+        container = findViewById(R.id.item_container);
+        titleView = findViewById(R.id.title);
+        subTitleView = findViewById(R.id.sub_title);
     }
     public void initAttr(Context context,AttributeSet attrs){
 
+    }
+    public ASSectionItem newItem(Context context){
+        ASSectionItem item = new ASSectionItem(context);
+        sectionItems.add(item);
+        container.addView(item);
+        return item;
     }
 }

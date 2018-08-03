@@ -6,10 +6,16 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.fwheart.androidsnippet.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ASSectionListPage extends FrameLayout {
+    private LinearLayout container;
+    private List<ASSection> sections = new ArrayList<>();
     public ASSectionListPage(@NonNull Context context) {
         this(context,null);
     }
@@ -28,11 +34,17 @@ public class ASSectionListPage extends FrameLayout {
     }
     private void initView(Context context){
         LayoutInflater.from(context).inflate(R.layout.comp_section_page,this,true);
-        ASSection asList = findViewById(R.id.list);
+        container = findViewById(R.id.section_container);
 //        ASSectionItem asListItem = null;
         /*for(int i=0;i<15;i++){
             asListItem = new ASSectionItem(context);
             asList.addView(asListItem);
         }*/
+    }
+    public ASSection newSection(Context context){
+        ASSection section = new ASSection(context);
+        sections.add(section);
+        container.addView(section);
+        return section;
     }
 }

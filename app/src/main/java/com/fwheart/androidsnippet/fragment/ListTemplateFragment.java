@@ -39,7 +39,7 @@ public class ListTemplateFragment extends BaseFragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @Override
+
     protected View onCreateView() {
         FrameLayout layout = (FrameLayout) LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,null);
         ButterKnife.bind(this,layout);

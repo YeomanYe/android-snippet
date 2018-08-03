@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ScrollView
-        android:background="@color/blue"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.fwheart.androidsnippet.component.section.ASSection
-            android:id="@+id/list"
+        <LinearLayout
+            android:id="@+id/section_container"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

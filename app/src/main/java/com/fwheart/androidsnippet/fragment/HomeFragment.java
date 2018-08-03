@@ -25,7 +25,7 @@ public class HomeFragment extends BaseFragment{
 
     private List<Map> maps = new ArrayList<>();
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
-    @Override
+
     protected View onCreateView() {
         FrameLayout layout = (FrameLayout)LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home,null);
         ButterKnife.bind(this,layout);

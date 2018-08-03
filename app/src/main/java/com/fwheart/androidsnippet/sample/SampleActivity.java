@@ -47,18 +47,7 @@ public class SampleActivity extends ActionBarActivity {
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_ab_drawer);
         }
-        /*FrameLayout frameLayout = (FrameLayout) findViewById(R.id.tab_sample);
-        pager = (ViewPager) frameLayout.findViewById(R.id.viewpager);
-        slidingTabLayout = (ASTabBar) frameLayout.findViewById(R.id.sliding_tabs);
-        pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), titles));
 
-        slidingTabLayout.setViewPager(pager);
-        slidingTabLayout.setCustomTabColorizer(new ASTabBar.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return Color.WHITE;
-            }
-        });*/
         ASTabPage asTabPage = (ASTabPage) findViewById(R.id.asTabPage);
         ASTabPage.TextIconItem item1 = new ASTabPage.TextIconItem("tab1",R.mipmap.ic_launcher,R.drawable.ic_launcher,new TestFragment());
         ASTabPage.TextIconItem item2 = new ASTabPage.TextIconItem("tab2",R.mipmap.ic_launcher,R.drawable.ic_launcher,SampleFragment.newInstance(1));

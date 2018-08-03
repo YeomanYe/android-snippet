@@ -1,13 +1,16 @@
 package com.fwheart.androidsnippet.component.section;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,7 +22,10 @@ public class ASSectionItem extends RelativeLayout{
     private FrameLayout accView;
     private SwitchCompat switchView;
     private TextView textView,detailTextView;
+    private LinearLayout textContainer;
     private ImageView iconView;
+    private AccType accType;
+    private OnClickListener onClickListener;
     public ASSectionItem(Context context) {
         this(context,null);
     }
@@ -44,18 +50,88 @@ public class ASSectionItem extends RelativeLayout{
         textView = findViewById(R.id.section_item_textView);
         detailTextView = findViewById(R.id.section_item_detailTextView);
         iconView = findViewById(R.id.section_item_imageView);
-        setAccessoryType(AccType.ACCESSORY_TYPE_SWITCH);
+        textContainer = findViewById(R.id.section_item_textContainer);
     }
 
     public void initAttr(Context context,AttributeSet attrs){
 
     }
 
-    enum AccType{
-        ACCESSORY_TYPE_CHEVRON,
-        ACCESSORY_TYPE_SWITCH,
-        ACCESSORY_TYPE_CUSTOM,
-        ACCESSORY_TYPE_NONE
+    public static enum AccType{
+        CHEVRON, SWITCH, CUSTOM, NONE
+    }
+
+    public ASSectionItem setText(String text){
+        textView.setText(text);
+        textView.setVisibility(VISIBLE);
+        return this;
+    }
+
+    public ASSectionItem setDetailText(String text){
+        detailTextView.setText(text);
+        detailTextView.setVisibility(VISIBLE);
+        return this;
+    }
+
+    public ASSectionItem setIcon(int resId){
+        iconView.setImageResource(resId);
+        iconView.setVisibility(VISIBLE);
+        return this;
+    }
+
+    public ASSectionItem setOrientation(@LinearLayoutCompat.OrientationMode int orientation){
+        textContainer.setOrientation(orientation);
+        return this;
+    }
+
+    public ImageView getIconView() {
+        return iconView;
+    }
+
+    public TextView getDetailTextView() {
+        return detailTextView;
+    }
+
+    public SwitchCompat getSwitchView() {
+        return switchView;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
+
+    public boolean isCheckSwitch(){
+        return switchView.isChecked();
+    }
+
+    public ASSectionItem setClick(OnClickListener onClickListener){
+        this.onClickListener = onClickListener;
+        this.setOnClickListener(wrapClickListener(onClickListener));
+        return this;
+    }
+
+    private boolean toggleSwitch(){
+        boolean checked = !switchView.isChecked();
+        switchView.setChecked(checked);
+        return checked;
+    }
+
+    private OnClickListener wrapClickListener(final OnClickListener onClickListener){
+        return new OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                ASSectionItem item = (ASSectionItem) v;
+                AccType accType = item.getAccType();
+                switch (accType){
+                    case SWITCH:
+                        boolean checked = toggleSwitch();
+                        Log.d("ClickListener",checked+"");
+                        break;
+                }
+                if(null != onClickListener)onClickListener.onClick(v);
+            }
+        };
     }
 
     private ViewGroup.LayoutParams getAccessoryLayoutParams() {
@@ -92,12 +168,27 @@ public class ASSectionItem extends RelativeLayout{
         }
     }
 
-    public void setAccessoryType(AccType type) {
-        accView.removeAllViews();
+    public AccType getAccType() {
+        return accType;
+    }
 
+    private SwitchCompat createSwitch(){
+        SwitchCompat switchView = new SwitchCompat(getContext());
+        switchView.setLayoutParams(getAccessoryLayoutParams());
+        // disable掉且不可点击，然后通过整个item的点击事件来toggle开关的状态
+        switchView.setClickable(false);
+        switchView.setEnabled(false);
+        switchView.setThumbResource(R.drawable.switch_custom_thumb_selector);
+        switchView.setTrackResource(R.drawable.switch_custom_track_selector);
+        return switchView;
+    }
+
+    public ASSectionItem setAccType(AccType type) {
+        accView.removeAllViews();
+        accType = type;
         switch (type) {
             // 向右的箭头
-            case ACCESSORY_TYPE_CHEVRON: {
+            case CHEVRON: {
                 ImageView tempImageView = getAccessoryImageView();
                 tempImageView.setImageResource(R.drawable.icon_chevron);
                 accView.addView(tempImageView);
@@ -105,26 +196,23 @@ public class ASSectionItem extends RelativeLayout{
             }
             break;
             // switch开关
-            case ACCESSORY_TYPE_SWITCH: {
+            case SWITCH: {
                 if (switchView == null) {
-                    switchView = new SwitchCompat(getContext());
-                    switchView.setLayoutParams(getAccessoryLayoutParams());
-                    // disable掉且不可点击，然后通过整个item的点击事件来toggle开关的状态
-//                    switchView.setClickable(false);
-//                    switchView.setEnabled(false);
+                    switchView = createSwitch();
                 }
                 accView.addView(switchView);
                 accView.setVisibility(VISIBLE);
             }
             break;
             // 自定义View
-            case ACCESSORY_TYPE_CUSTOM:
+            case CUSTOM:
                 accView.setVisibility(VISIBLE);
                 break;
             // 清空所有accessoryView
-            case ACCESSORY_TYPE_NONE:
+            case NONE:
                 accView.setVisibility(GONE);
                 break;
         }
+        return this;
     }
 }

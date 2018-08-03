@@ -7,17 +7,17 @@
         android:id="@+id/section_item_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <FrameLayout
         android:id="@+id/section_item_accessoryView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:visibility="gone"/>
@@ -25,6 +25,7 @@
     <LinearLayout
         android:id="@+id/section_item_textContainer"
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="5dp"
         android:layout_height="wrap_content"
         android:layout_alignWithParentIfMissing="true"
         android:layout_centerVertical="true"
@@ -36,8 +37,9 @@
             android:id="@+id/section_item_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LinearLayout first text"
-            android:textColor="@color/black_translucent"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:textSize="18sp"
             android:ellipsize="end"
             android:gravity="left|center_vertical"
             android:includeFontPadding="false"
@@ -53,10 +55,10 @@
             android:id="@+id/section_item_detailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="second text"
+            android:textSize="15sp"
             android:textColor="@color/black_translucent"
             android:includeFontPadding="false"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
     </LinearLayout>
 
