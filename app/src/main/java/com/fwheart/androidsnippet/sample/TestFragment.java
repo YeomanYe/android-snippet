@@ -1,5 +1,6 @@
 package com.fwheart.androidsnippet.sample;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.fwheart.androidsnippet.R;
 import com.fwheart.androidsnippet.base.BaseFragment;
+import com.fwheart.androidsnippet.component.dialog.ASDialog;
 import com.fwheart.androidsnippet.component.section.ASSection;
 import com.fwheart.androidsnippet.component.section.ASSectionItem;
 import com.fwheart.androidsnippet.component.section.ASSectionListPage;
@@ -50,6 +52,8 @@ public class TestFragment extends BaseFragment {
                 .setIcon(R.mipmap.ic_launcher)
                 .setAccType(ASSectionItem.AccType.CHEVRON);
         sectionPage.init(context);
+        /*ASDialog dialog = new ASDialog();
+        dialog.show(getFragmentManager(),"ASDialog");*/
         return view;
     }
 }

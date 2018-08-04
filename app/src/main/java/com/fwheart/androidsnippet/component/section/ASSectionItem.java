@@ -1,11 +1,14 @@
 package com.fwheart.androidsnippet.component.section;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -26,6 +29,13 @@ public class ASSectionItem extends RelativeLayout{
     private ImageView iconView;
     private AccType accType;
     private OnClickListener onClickListener;
+
+    public static boolean isLastTouch = false;
+    int rippleSize = 3;
+    // ### RIPPLE EFFECT ###
+    float x = -1, y = -1;
+    float radius = -1;
+
     public ASSectionItem(Context context) {
         this(context,null);
     }
@@ -54,7 +64,12 @@ public class ASSectionItem extends RelativeLayout{
     }
 
     public void initAttr(Context context,AttributeSet attrs){
-
+        //设置波纹效果
+        setClickable(true);
+        TypedValue typedValue = new TypedValue();
+        int[] attribute = new int[]{R.attr.selectableItemBackground};
+        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(typedValue.resourceId, attribute);
+        setBackground(typedArray.getDrawable(0));
     }
 
     public static enum AccType{
@@ -182,6 +197,36 @@ public class ASSectionItem extends RelativeLayout{
         switchView.setTrackResource(R.drawable.switch_custom_track_selector);
         return switchView;
     }
+
+    /*@Override
+    public boolean onTouchEvent(MotionEvent event) {
+        isLastTouch = true;
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            radius = getHeight() / rippleSize;
+            x = event.getX();
+            y = event.getY();
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            radius = getHeight() / rippleSize;
+            x = event.getX();
+            y = event.getY();
+            if (!((event.getX() <= getWidth() && event.getX() >= 0) &&
+                    (event.getY() <= getHeight() && event.getY() >= 0))) {
+                isLastTouch = false;
+                x = -1;
+                y = -1;
+            }
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            if ((event.getX() <= getWidth() && event.getX() >= 0) &&
+                    (event.getY() <= getHeight() && event.getY() >= 0)) {
+                radius++;
+            } else {
+                isLastTouch = false;
+                x = -1;
+                y = -1;
+            }
+        }
+        return true;
+    }*/
 
     public ASSectionItem setAccType(AccType type) {
         accView.removeAllViews();
