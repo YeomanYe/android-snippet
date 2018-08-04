@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
+import com.fwheart.androidsnippet.helper.AssetHelper;
 
 import java.util.Map;
 
@@ -66,10 +67,8 @@ public class ASSectionItem extends RelativeLayout{
     public void initAttr(Context context,AttributeSet attrs){
         //设置波纹效果
         setClickable(true);
-        TypedValue typedValue = new TypedValue();
-        int[] attribute = new int[]{R.attr.selectableItemBackground};
-        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(typedValue.resourceId, attribute);
-        setBackground(typedArray.getDrawable(0));
+        setBackground(AssetHelper.getDrawable(context,R.attr.selectableItemBackground));
+
     }
 
     public static enum AccType{
