@@ -3,6 +3,7 @@ package com.fwheart.androidsnippet.component.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.StyleRes;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
 
-public abstract class ASDialogBuilder {
+public abstract class ASDialogBuilder<T extends ASDialogBuilder> {
     Context context;
     ASDialog dialog;
     String msg = "";
@@ -36,17 +37,17 @@ public abstract class ASDialogBuilder {
         return msg;
     }
 
-    public ASDialogBuilder setMsg(String msg) {
+    public T setMsg(String msg) {
         this.msg = msg;
-        return this;
+        return (T)this;
     }
     public String getTitle() {
         return title;
     }
 
-    public ASDialogBuilder setTitle(String title) {
+    public T setTitle(String title) {
         this.title = title;
-        return this;
+        return (T)this;
     }
 
     public Dialog create(){
@@ -69,11 +70,12 @@ public abstract class ASDialogBuilder {
         this.onCancel = onCancel;
     }
 
-    OnClickListener wrapClick(final OnClickListener onClickListener){
+    OnClickListener wrapClick(final OnClickListener onClickListener, final String tag){
         return new OnClickListener(){
 
             @Override
             public void onClick(View v) {
+                Log.d("Dialog Click",tag);
                 dialog.dismiss();
                 if(null != onClickListener) onClickListener.onClick(v);
             }
@@ -91,8 +93,8 @@ public abstract class ASDialogBuilder {
         footer.setVisibility(View.VISIBLE);
         Button okBtn = footer.findViewById(R.id.ok_btn);
         Button cancelBtn = footer.findViewById(R.id.cancel_btn);
-        okBtn.setOnClickListener(wrapClick(onConfirm));
-        cancelBtn.setOnClickListener(wrapClick(onCancel));
+        okBtn.setOnClickListener(wrapClick(onConfirm,"onConfirm"));
+        cancelBtn.setOnClickListener(wrapClick(onCancel,"onCancel"));
     }
     abstract public void createContent(ViewGroup content,View root);
     public Dialog create(@StyleRes int themeId){

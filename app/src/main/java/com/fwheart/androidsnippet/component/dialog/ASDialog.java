@@ -3,9 +3,11 @@ package com.fwheart.androidsnippet.component.dialog;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
@@ -72,4 +74,44 @@ public class ASDialog extends AlertDialog {
         }
     }
 
+    public static class PromptBuilder extends ASDialogBuilder<PromptBuilder>{
+
+        private String placeholder = "";
+        private int inputType = InputType.TYPE_CLASS_TEXT;
+
+        public PromptBuilder(Context context) {
+            super(context);
+        }
+
+        public String getPlaceholder() {
+            return placeholder;
+        }
+
+        public PromptBuilder setPlaceholder(String placeholder) {
+            this.placeholder = placeholder;
+            return this;
+        }
+
+        public int getInputType() {
+            return inputType;
+        }
+
+        public PromptBuilder setInputType(int inputType) {
+            this.inputType = inputType;
+            return this;
+        }
+
+        @Override
+        public void createContent(ViewGroup content, View root) {
+            EditText editText = new EditText(context);
+            editText.setHint(placeholder);
+            editText.setInputType(inputType);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            editText.setLayoutParams(lp);
+            editText.setHintTextColor(Color.GRAY);
+            editText.setTextSize(15);
+            editText.setTextColor(Color.GRAY);
+            content.addView(editText);
+        }
+    }
 }

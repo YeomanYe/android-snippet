@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,20 +77,20 @@ public class TestFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_list,container,false);
         ASSectionListPage sectionPage = view.findViewById(R.id.list_page);
         ASSection section = sectionPage.newSection(context).setTitle("Dialog");
-        String[][] textArr = new String[][]{{"Alert","只有一个按钮的dialog"},{"Confirm","具有两个按钮的dialog"}};
+        String[][] textArr = new String[][]{{"Alert","只有一个按钮的dialog"},{"Confirm","具有两个按钮的dialog"},{"Prompt","带输入框的dialog"}};
         for(int i=0,len=textArr.length;i<len;i++){
             final int index = i + 1;
             ASSectionItem item = section.newItem(context)
                     .setText(textArr[i][0])
                     .setDetailText(textArr[i][1])
                     .setOrientation(LinearLayout.VERTICAL)
-                    .setIcon(R.mipmap.ic_launcher)
                     .setClick(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             switch (index){
                                 case 1:showAlert("这是alert dialog");break;
                                 case 2:showConfirm("这是confirm dialog");break;
+                                case 3:showPrompt("请输入数字",InputType.TYPE_CLASS_NUMBER);break;
                             }
                         }
                     });
@@ -99,18 +100,27 @@ public class TestFragment extends BaseFragment {
     }
 
     private void showAlert(String msg){
-        Dialog dlg = new ASDialog.AlertBuilder(getContext())
+        new ASDialog.AlertBuilder(getContext())
                 .setTitle("标题栏")
                 .setMsg(msg)
-                .create();
-        dlg.show();
+                .create()
+                .show();
     }
 
     private void showConfirm(String msg){
-        Dialog dlg = new ASDialog.ConfirmBuilder(getContext())
+        new ASDialog.ConfirmBuilder(getContext())
                 .setTitle("标题栏")
                 .setMsg(msg)
-                .create();
-        dlg.show();
+                .create()
+                .show();
+    }
+
+    private void showPrompt(String placeholder,int type){
+        new ASDialog.PromptBuilder(getContext())
+                .setTitle("标题栏")
+                .setInputType(type)
+                .setPlaceholder(placeholder)
+                .create()
+                .show();
     }
 }
