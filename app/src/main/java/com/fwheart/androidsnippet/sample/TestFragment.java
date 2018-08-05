@@ -1,6 +1,6 @@
 package com.fwheart.androidsnippet.sample;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -52,8 +52,12 @@ public class TestFragment extends BaseFragment {
                 .setIcon(R.mipmap.ic_launcher)
                 .setAccType(ASSectionItem.AccType.CHEVRON);
         sectionPage.init(context);
-        /*ASDialog dialog = new ASDialog();
-        dialog.show(getFragmentManager(),"ASDialog");*/
+        Dialog dlg = new ASDialog.ConfirmBuilder(getContext())
+                        .setTitle("标题栏")
+                        .setMsg("This is message")
+                        .create();
+        dlg.show();
+
         return view;
     }
 }

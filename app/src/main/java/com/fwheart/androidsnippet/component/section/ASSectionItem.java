@@ -67,7 +67,7 @@ public class ASSectionItem extends RelativeLayout{
     public void initAttr(Context context,AttributeSet attrs){
         //设置波纹效果
         setClickable(true);
-        setBackground(AssetHelper.getDrawable(context,R.attr.selectableItemBackground));
+        setBackgroundResource(AssetHelper.getResId(context,R.attr.selectableItemBackground));
 
     }
 
@@ -196,36 +196,6 @@ public class ASSectionItem extends RelativeLayout{
         switchView.setTrackResource(R.drawable.switch_custom_track_selector);
         return switchView;
     }
-
-    /*@Override
-    public boolean onTouchEvent(MotionEvent event) {
-        isLastTouch = true;
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            radius = getHeight() / rippleSize;
-            x = event.getX();
-            y = event.getY();
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            radius = getHeight() / rippleSize;
-            x = event.getX();
-            y = event.getY();
-            if (!((event.getX() <= getWidth() && event.getX() >= 0) &&
-                    (event.getY() <= getHeight() && event.getY() >= 0))) {
-                isLastTouch = false;
-                x = -1;
-                y = -1;
-            }
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            if ((event.getX() <= getWidth() && event.getX() >= 0) &&
-                    (event.getY() <= getHeight() && event.getY() >= 0)) {
-                radius++;
-            } else {
-                isLastTouch = false;
-                x = -1;
-                y = -1;
-            }
-        }
-        return true;
-    }*/
 
     public ASSectionItem setAccType(AccType type) {
         accView.removeAllViews();
