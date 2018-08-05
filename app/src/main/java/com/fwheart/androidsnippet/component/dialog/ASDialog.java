@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -78,6 +80,24 @@ public class ASDialog extends AlertDialog {
 
         private String placeholder = "";
         private int inputType = InputType.TYPE_CLASS_TEXT;
+        private EditText editText;
+        private OnClick onCancel,onConfirm;
+
+        public static interface OnClick{
+            void onClick(View v,String text);
+        }
+
+
+        public PromptBuilder setOnCancel(OnClick onCancel) {
+            this.onCancel = onCancel;
+            return this;
+        }
+
+
+        public PromptBuilder setOnConfirm(OnClick onConfirm) {
+            this.onConfirm = onConfirm;
+            return this;
+        }
 
         public PromptBuilder(Context context) {
             super(context);
@@ -103,7 +123,7 @@ public class ASDialog extends AlertDialog {
 
         @Override
         public void createContent(ViewGroup content, View root) {
-            EditText editText = new EditText(context);
+            editText = new EditText(context);
             editText.setHint(placeholder);
             editText.setInputType(inputType);
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -112,6 +132,27 @@ public class ASDialog extends AlertDialog {
             editText.setTextSize(15);
             editText.setTextColor(Color.GRAY);
             content.addView(editText);
+        }
+
+        @Override
+        void setOnClick(Button okBtn, Button cancelBtn) {
+            okBtn.setOnClickListener(wrapClick(onConfirm,"onConfirm"));
+            cancelBtn.setOnClickListener(wrapClick(onCancel,"onCancel"));
+        }
+
+        View.OnClickListener wrapClick(final OnClick onClickListener, final String tag) {
+
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = editText.getText().toString();
+                    dialog.dismiss();
+                    Log.d("Dialog Prompt",tag+" "+text);
+                    if(null != onClickListener){
+                        onClickListener.onClick(v,text);
+                    }
+                }
+            };
         }
     }
 }

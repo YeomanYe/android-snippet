@@ -25,6 +25,7 @@ public abstract class ASDialogBuilder<T extends ASDialogBuilder> {
             okBtnId = R.id.ok_btn,
             cancelBtnId = R.id.cancel_btn;
     boolean hasHeader = true,hasFooter = true;
+    Button okBtn,cancelBtn;
     OnClickListener onConfirm,onCancel;
     String title = "";
     ViewGroup header,footer,content;
@@ -54,20 +55,14 @@ public abstract class ASDialogBuilder<T extends ASDialogBuilder> {
         return create(R.style.AlertDialog);
     }
 
-    public OnClickListener getOnConfirm() {
-        return onConfirm;
-    }
-
-    public void setOnConfirm(OnClickListener onConfirm) {
+    public T setOnConfirm(OnClickListener onConfirm) {
         this.onConfirm = onConfirm;
+        return (T) this;
     }
 
-    public OnClickListener getOnCancel() {
-        return onCancel;
-    }
-
-    public void setOnCancel(OnClickListener onCancel) {
+    public T setOnCancel(OnClickListener onCancel) {
         this.onCancel = onCancel;
+        return (T)this;
     }
 
     OnClickListener wrapClick(final OnClickListener onClickListener, final String tag){
@@ -87,14 +82,16 @@ public abstract class ASDialogBuilder<T extends ASDialogBuilder> {
         TextView titleView = header.findViewById(R.id.title);
         titleView.setText(title);
     }
-
+    void setOnClick(Button okBtn,Button cancelBtn){
+        okBtn.setOnClickListener(wrapClick(onConfirm,"onConfirm"));
+        cancelBtn.setOnClickListener(wrapClick(onCancel,"onCancel"));
+    }
     void createFooter(ViewGroup footer,View root){
         if(!hasFooter) return;
         footer.setVisibility(View.VISIBLE);
-        Button okBtn = footer.findViewById(R.id.ok_btn);
-        Button cancelBtn = footer.findViewById(R.id.cancel_btn);
-        okBtn.setOnClickListener(wrapClick(onConfirm,"onConfirm"));
-        cancelBtn.setOnClickListener(wrapClick(onCancel,"onCancel"));
+        okBtn = footer.findViewById(R.id.ok_btn);
+        cancelBtn = footer.findViewById(R.id.cancel_btn);
+        setOnClick(okBtn,cancelBtn);
     }
     abstract public void createContent(ViewGroup content,View root);
     public Dialog create(@StyleRes int themeId){
