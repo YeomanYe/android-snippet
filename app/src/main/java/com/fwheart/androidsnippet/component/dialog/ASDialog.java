@@ -9,6 +9,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
+import com.fwheart.androidsnippet.helper.AssetHelper;
+import com.fwheart.androidsnippet.helper.SizeHelper;
 
 public class ASDialog extends AlertDialog {
 
@@ -40,10 +42,34 @@ public class ASDialog extends AlertDialog {
         public void createContent(ViewGroup content, View root) {
             TextView msgText = new TextView(context);
             msgText.setText(msg);
+            msgText.setTextSize(15);
             msgText.setTextColor(Color.GRAY);
             content.addView(msgText);
         }
 
+    }
+
+    public static class AlertBuilder extends ASDialogBuilder{
+
+        public AlertBuilder(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void createContent(ViewGroup content, View root) {
+            TextView msgText = new TextView(context);
+            msgText.setText(msg);
+            msgText.setTextSize(15);
+            msgText.setTextColor(Color.GRAY);
+            content.addView(msgText);
+        }
+
+        @Override
+        void createFooter(ViewGroup footer, View root) {
+            super.createFooter(footer, root);
+            View view = footer.findViewById(cancelBtnId);
+            view.setVisibility(View.GONE);
+        }
     }
 
 }

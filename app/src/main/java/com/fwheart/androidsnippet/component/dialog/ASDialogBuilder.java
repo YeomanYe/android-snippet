@@ -18,7 +18,11 @@ public abstract class ASDialogBuilder {
     ASDialog dialog;
     String msg = "";
     int layoutId = R.layout.comp_dialog;
-    int headerId = R.id.header,footerId = R.id.footer,contentId = R.id.content;
+    int headerId = R.id.header,
+            footerId = R.id.footer,
+            contentId = R.id.content,
+            okBtnId = R.id.ok_btn,
+            cancelBtnId = R.id.cancel_btn;
     boolean hasHeader = true,hasFooter = true;
     OnClickListener onConfirm,onCancel;
     String title = "";

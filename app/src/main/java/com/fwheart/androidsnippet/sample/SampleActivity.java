@@ -49,8 +49,8 @@ public class SampleActivity extends ActionBarActivity {
         }
 
         ASTabPage asTabPage = (ASTabPage) findViewById(R.id.asTabPage);
-        ASTabPage.TextIconItem item1 = new ASTabPage.TextIconItem("tab1",R.mipmap.ic_launcher,R.drawable.ic_launcher,new TestFragment());
-        ASTabPage.TextIconItem item2 = new ASTabPage.TextIconItem("tab2",R.mipmap.ic_launcher,R.drawable.ic_launcher,SampleFragment.newInstance(1));
+        ASTabPage.TextIconItem item1 = new ASTabPage.TextIconItem("tab1",R.mipmap.ic_launcher,R.drawable.ic_launcher,TestFragment.newInstance(0));
+        ASTabPage.TextIconItem item2 = new ASTabPage.TextIconItem("tab2",R.mipmap.ic_launcher,R.drawable.ic_launcher,TestFragment.newInstance(1));
         ASTabPage.TextIconItem item3 = new ASTabPage.TextIconItem("tab3",R.mipmap.ic_launcher,R.drawable.ic_launcher,SampleFragment.newInstance(2));
 
         asTabPage.init(this,item1,item2,item3);

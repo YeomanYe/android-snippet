@@ -28,14 +28,9 @@ public class ASSectionItem extends RelativeLayout{
     private TextView textView,detailTextView;
     private LinearLayout textContainer;
     private ImageView iconView;
-    private AccType accType;
+    private AccType accType = AccType.NONE;
     private OnClickListener onClickListener;
 
-    public static boolean isLastTouch = false;
-    int rippleSize = 3;
-    // ### RIPPLE EFFECT ###
-    float x = -1, y = -1;
-    float radius = -1;
 
     public ASSectionItem(Context context) {
         this(context,null);

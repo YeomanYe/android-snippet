@@ -17,14 +17,29 @@ import com.fwheart.androidsnippet.component.section.ASSectionItem;
 import com.fwheart.androidsnippet.component.section.ASSectionListPage;
 
 public class TestFragment extends BaseFragment {
+    private static final String ARG_POSITION = "index";
+
+    public static TestFragment newInstance(int index){
+        TestFragment f = new TestFragment();
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, index);
+        f.setArguments(b);
+        return f;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        return initSectionPage(inflater,container,savedInstanceState);
+        int index = getArguments().getInt(ARG_POSITION);
+        View view = null;
+        switch (index){
+            case 0:view = createSectionPage(inflater,container,savedInstanceState);break;
+            case 1:view = createDialogPage(inflater,container,savedInstanceState);break;
+        }
+        return view;
     }
 
-    private View initSectionPage(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+    private View createSectionPage(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Context context = getContext();
         View view = inflater.inflate(R.layout.fragment_list,container,false);
         ASSectionListPage sectionPage = view.findViewById(R.id.list_page);
@@ -52,12 +67,50 @@ public class TestFragment extends BaseFragment {
                 .setIcon(R.mipmap.ic_launcher)
                 .setAccType(ASSectionItem.AccType.CHEVRON);
         sectionPage.init(context);
-        Dialog dlg = new ASDialog.ConfirmBuilder(getContext())
-                        .setTitle("标题栏")
-                        .setMsg("This is message")
-                        .create();
-        dlg.show();
 
         return view;
+    }
+
+    private View createDialogPage(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        Context context = getContext();
+        View view = inflater.inflate(R.layout.fragment_list,container,false);
+        ASSectionListPage sectionPage = view.findViewById(R.id.list_page);
+        ASSection section = sectionPage.newSection(context).setTitle("Dialog");
+        String[][] textArr = new String[][]{{"Alert","只有一个按钮的dialog"},{"Confirm","具有两个按钮的dialog"}};
+        for(int i=0,len=textArr.length;i<len;i++){
+            final int index = i + 1;
+            ASSectionItem item = section.newItem(context)
+                    .setText(textArr[i][0])
+                    .setDetailText(textArr[i][1])
+                    .setOrientation(LinearLayout.VERTICAL)
+                    .setIcon(R.mipmap.ic_launcher)
+                    .setClick(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (index){
+                                case 1:showAlert("这是alert dialog");break;
+                                case 2:showConfirm("这是confirm dialog");break;
+                            }
+                        }
+                    });
+        }
+        sectionPage.init(context);
+        return view;
+    }
+
+    private void showAlert(String msg){
+        Dialog dlg = new ASDialog.AlertBuilder(getContext())
+                .setTitle("标题栏")
+                .setMsg(msg)
+                .create();
+        dlg.show();
+    }
+
+    private void showConfirm(String msg){
+        Dialog dlg = new ASDialog.ConfirmBuilder(getContext())
+                .setTitle("标题栏")
+                .setMsg(msg)
+                .create();
+        dlg.show();
     }
 }
