@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
-import com.fwheart.androidsnippet.helper.AssetHelper;
-import com.fwheart.androidsnippet.helper.SizeHelper;
 
 public class ASDialog extends AlertDialog {
 

@@ -60,6 +60,23 @@ public abstract class ASDialogBuilder<T extends ASDialogBuilder> {
         return (T) this;
     }
 
+
+    public T setHasHeader(boolean hasHeader) {
+        this.hasHeader = hasHeader;
+        return (T) this;
+    }
+
+
+    public T setHasFooter(boolean hasFooter) {
+        this.hasFooter = hasFooter;
+        return (T)this;
+    }
+
+    public T setLayoutId(int layoutId){
+        this.layoutId = layoutId;
+        return (T)this;
+    }
+
     public T setOnCancel(OnClickListener onCancel) {
         this.onCancel = onCancel;
         return (T)this;
