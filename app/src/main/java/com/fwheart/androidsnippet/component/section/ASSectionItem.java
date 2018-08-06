@@ -2,6 +2,7 @@ package com.fwheart.androidsnippet.component.section;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
@@ -29,6 +30,7 @@ public class ASSectionItem extends RelativeLayout{
     private LinearLayout textContainer;
     private ImageView iconView;
     private AccType accType = AccType.NONE;
+    private int orientation = LinearLayout.VERTICAL;
     private OnClickListener onClickListener;
 
 
@@ -90,7 +92,15 @@ public class ASSectionItem extends RelativeLayout{
 
     public ASSectionItem setOrientation(@LinearLayoutCompat.OrientationMode int orientation){
         textContainer.setOrientation(orientation);
+        this.orientation = orientation;
         return this;
+    }
+
+    void init(){
+        if(this.orientation == LinearLayout.VERTICAL){
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) detailTextView.getLayoutParams();
+            lp.topMargin = 10;
+        }
     }
 
     public ImageView getIconView() {

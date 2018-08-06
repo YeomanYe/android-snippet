@@ -75,15 +75,19 @@ public class ASSection extends LinearLayout{
         view.setLayoutParams(lp);
         return view;
     }
-    public void init(Context context){
+    void init(Context context){
         initWithItems(context);
     }
     private void initWithItems(Context context){
         int len=sectionItems.size();
         for(int i=0;i<len - 1;i++){
-            container.addView(sectionItems.get(i));
+            ASSectionItem item = sectionItems.get(i);
+            item.init();
+            container.addView(item);
             if(hasPartLine)container.addView(createPartLine(context));
         }
-        container.addView(sectionItems.get(len - 1));
+        ASSectionItem item = sectionItems.get(len - 1);
+        item.init();
+        container.addView(item);
     }
 }

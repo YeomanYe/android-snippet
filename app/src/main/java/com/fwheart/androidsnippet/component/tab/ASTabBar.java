@@ -163,7 +163,7 @@ public class ASTabBar extends HorizontalScrollView {
      * Create a default view to be used for tabs. This is called if a custom tab view is not set via
      * .
      */
-    protected LinearLayout createTabView(Context context) {
+    protected LinearLayout createTabView(Context context,int position) {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
         if(itemPaddingLeft == 0 && itemPaddingRight == 0){
@@ -177,7 +177,7 @@ public class ASTabBar extends HorizontalScrollView {
         linearLayout.setGravity(Gravity.CENTER);
         TextView textView = null;
         ImageView imgView = null;
-        ASTabItem item = tabItems[0];
+        ASTabItem item = tabItems[position];
         if(ASTabPage.TextItem.class.isInstance(item)){
             ASTabPage.TextItem pItem = (ASTabPage.TextItem) item;
             textView = createTextView(pItem.getText());
@@ -225,7 +225,7 @@ public class ASTabBar extends HorizontalScrollView {
 
         for (int i = 0; i < adapter.getCount(); i++) {
             //使用默认结构初始化title
-            View tabView = createTabView(getContext());
+            View tabView = createTabView(getContext(),i);
 
             tabView.setOnClickListener(tabClickListener);
 
