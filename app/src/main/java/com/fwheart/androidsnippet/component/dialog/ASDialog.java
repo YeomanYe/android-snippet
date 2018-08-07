@@ -67,7 +67,7 @@ public class ASDialog extends AlertDialog {
         }
 
         @Override
-        void createFooter(ViewGroup footer, View root) {
+        protected void createFooter(ViewGroup footer, View root) {
             super.createFooter(footer, root);
             View view = footer.findViewById(cancelBtnId);
             view.setVisibility(View.GONE);
@@ -133,7 +133,7 @@ public class ASDialog extends AlertDialog {
         }
 
         @Override
-        void setOnClick(Button okBtn, Button cancelBtn) {
+        protected void setOnClick(Button okBtn, Button cancelBtn) {
             okBtn.setOnClickListener(wrapClick(onConfirm,"onConfirm"));
             cancelBtn.setOnClickListener(wrapClick(onCancel,"onCancel"));
         }

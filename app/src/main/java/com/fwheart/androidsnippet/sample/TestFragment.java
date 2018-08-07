@@ -16,6 +16,7 @@ import com.fwheart.androidsnippet.component.dialog.ASDialog;
 import com.fwheart.androidsnippet.component.section.ASSection;
 import com.fwheart.androidsnippet.component.section.ASSectionItem;
 import com.fwheart.androidsnippet.component.section.ASSectionListPage;
+import com.fwheart.androidsnippet.component.toast.ASToast;
 
 public class TestFragment extends BaseFragment {
     private static final String ARG_POSITION = "index";
@@ -68,7 +69,7 @@ public class TestFragment extends BaseFragment {
                 .setIcon(R.mipmap.ic_launcher)
                 .setAccType(ASSectionItem.AccType.CHEVRON);
         sectionPage.init(context);
-
+        ASToast.success(context,"success toast");
         return view;
     }
 
