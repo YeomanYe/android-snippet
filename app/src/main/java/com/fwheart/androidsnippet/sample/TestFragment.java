@@ -69,7 +69,6 @@ public class TestFragment extends BaseFragment {
                 .setIcon(R.mipmap.ic_launcher)
                 .setAccType(ASSectionItem.AccType.CHEVRON);
         sectionPage.init(context);
-        ASToast.success(context,"success toast");
         return view;
     }
 
@@ -96,9 +95,40 @@ public class TestFragment extends BaseFragment {
                         }
                     });
         }
+        section = sectionPage.newSection(context).setTitle("Toast");
+        textArr = new String[][]{{"Success","成功图标提示"},{"Error","失败图标提示"},{"Info","信息图标提示"}};
+        for(int i=0,len=textArr.length;i<len;i++){
+            final int index = i + 1;
+            ASSectionItem item = section.newItem(context)
+                    .setText(textArr[i][0])
+                    .setDetailText(textArr[i][1])
+                    .setOrientation(LinearLayout.VERTICAL)
+                    .setClick(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (index){
+                                case 1:showSuc("成功提示");break;
+                                case 2:showErr("失败提示");break;
+                                case 3:showInfo("信息提示");break;
+                            }
+                        }
+                    });
+        }
         sectionPage.init(context);
         return view;
     }
+
+    private void showSuc(String msg){
+        ASToast.success(getContext(),msg);
+    }
+
+    private void showInfo(String msg){
+        ASToast.info(getContext(),msg);
+    }
+    private void showErr(String msg){
+        ASToast.error(getContext(),msg);
+    }
+
 
     private void showAlert(String msg){
         new ASDialog.AlertBuilder(getContext())

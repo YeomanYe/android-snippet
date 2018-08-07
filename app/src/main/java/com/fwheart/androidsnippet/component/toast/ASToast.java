@@ -40,6 +40,15 @@ public class ASToast extends AlertDialog {
         createToast(context,msg,R.drawable.icon_notify_done);
     }
 
+    public static void info(Context context,String msg){
+        createToast(context,msg,R.drawable.icon_notify_info);
+    }
+
+    public static void error(Context context,String msg){
+        createToast(context,msg,R.drawable.icon_notify_error);
+    }
+
+
     private static void createToast(Context context,String msg,int icon){
         new Builder(context)
                 .setIcon(icon)
