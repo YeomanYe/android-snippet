@@ -14,12 +14,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ASToast extends AlertDialog {
+    private int delay = 1500;
+    public static final int SHORT_DELAY = 1500;
+    public static final int LONG_DELAY = 3000;
     public ASToast(Context context) {
         this(context, R.style.Toast);
     }
 
     public ASToast(Context context, int themeResId) {
         super(context, themeResId);
+    }
+
+    public ASToast setDelay(int delay) {
+        this.delay = delay;
+        return this;
     }
 
     @Override
@@ -33,7 +41,7 @@ public class ASToast extends AlertDialog {
             }
         };
         Timer timer = new Timer();
-        timer.schedule(task, 3000);
+        timer.schedule(task, delay);
     }
 
     public static void success(Context context,String msg){
@@ -48,13 +56,17 @@ public class ASToast extends AlertDialog {
         createToast(context,msg,R.drawable.icon_notify_error);
     }
 
-
-    private static void createToast(Context context,String msg,int icon){
-        new Builder(context)
+    private static void createToast(Context context,String msg,int icon,int delay){
+        ASToast toast = (ASToast) new Builder(context)
                 .setIcon(icon)
                 .setText(msg)
-                .create()
-                .show();
+                .create();
+        toast.setDelay(delay).show();
+    }
+
+
+    private static void createToast(Context context,String msg,int icon){
+        createToast(context,msg,icon,SHORT_DELAY);
     }
 
     public static class Builder extends ASToastBuilder<Builder>{
