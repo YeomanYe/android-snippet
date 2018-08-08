@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
+import com.fwheart.androidsnippet.helper.AssetHelper;
 import com.fwheart.androidsnippet.helper.SizeHelper;
 
 import java.util.ArrayList;
@@ -62,10 +63,11 @@ public class ASActionSheet extends AlertDialog {
                 String itemName = items.get(i);
                 TextView textView = new TextView(context);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.topMargin = SizeHelper.dp2px(context,20);
                 lp.gravity = Gravity.CENTER;
+                textView.setPadding(0,SizeHelper.dp2px(context,10),0,SizeHelper.dp2px(context,10));
                 textView.setLayoutParams(lp);
                 textView.setTextSize(17);
+                textView.setBackgroundResource(AssetHelper.getResId(context,R.attr.selectableItemBackground));
                 textView.setText(itemName);
                 textView.setTextColor(Color.GRAY);
                 textView.setOnClickListener(new View.OnClickListener() {
