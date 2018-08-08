@@ -154,6 +154,16 @@ public class TestFragment extends BaseFragment {
     private void showListActionSheet(){
         new ASActionSheet.ListBuilder(getContext())
                 .setTitle("请从下列选项选择一个")
+                .addItem("Item 1")
+                .addItem("Item 2")
+                .addItem("Item 3")
+                .setOnSheetItemClick(new ASActionSheet.ListBuilder.OnSheetItemClick(){
+
+                    @Override
+                    public void onClick(View view, int position) {
+
+                    }
+                })
                 .create()
                 .show();
     }

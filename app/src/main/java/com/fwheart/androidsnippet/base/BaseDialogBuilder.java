@@ -78,7 +78,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder,E extends Al
 
     abstract public E createDialog(Context context);
 
-    View.OnClickListener wrapClick(final View.OnClickListener onClickListener, final String tag){
+    protected View.OnClickListener wrapClick(final View.OnClickListener onClickListener, final String tag){
         return new View.OnClickListener(){
 
             @Override
