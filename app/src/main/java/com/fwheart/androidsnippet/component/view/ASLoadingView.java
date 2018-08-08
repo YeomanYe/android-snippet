@@ -42,7 +42,7 @@ public class ASLoadingView extends View {
         super(context, attrs, defStyleAttr);
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.ASLoadingView, defStyleAttr, 0);
         mSize = array.getDimensionPixelSize(R.styleable.ASLoadingView_loading_view_size, SizeHelper.dp2px(context, 32));
-        mPaintColor = array.getInt(R.styleable.QMUILoadingView_android_color, Color.WHITE);
+        mPaintColor = array.getInt(R.styleable.ASLoadingView_android_color, Color.WHITE);
         array.recycle();
         initPaint();
     }

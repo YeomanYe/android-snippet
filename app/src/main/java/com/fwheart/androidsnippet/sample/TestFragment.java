@@ -96,7 +96,7 @@ public class TestFragment extends BaseFragment {
                     });
         }
         section = sectionPage.newSection(context).setTitle("Toast");
-        textArr = new String[][]{{"Success","成功图标提示"},{"Error","失败图标提示"},{"Info","信息图标提示"}};
+        textArr = new String[][]{{"Success","成功图标提示"},{"Error","失败图标提示"},{"Info","信息图标提示"},{"Loading","加载提示"}};
         for(int i=0,len=textArr.length;i<len;i++){
             final int index = i + 1;
             ASSectionItem item = section.newItem(context)
@@ -110,6 +110,7 @@ public class TestFragment extends BaseFragment {
                                 case 1:showSuc("成功提示");break;
                                 case 2:showErr("失败提示");break;
                                 case 3:showInfo("信息提示");break;
+                                case 4:showLoading("加载提示");break;
                             }
                         }
                     });
@@ -127,6 +128,9 @@ public class TestFragment extends BaseFragment {
     }
     private void showErr(String msg){
         ASToast.error(getContext(),msg);
+    }
+    private void showLoading(String msg){
+        ASToast.loading(getContext(),msg);
     }
 
 

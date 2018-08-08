@@ -3,12 +3,17 @@ package com.fwheart.androidsnippet.component.toast;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
+import com.fwheart.androidsnippet.component.view.ASLoadingView;
+import com.fwheart.androidsnippet.helper.SizeHelper;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -56,6 +61,10 @@ public class ASToast extends AlertDialog {
         createToast(context,msg,R.drawable.icon_notify_error);
     }
 
+    public static void loading(Context context,String msg){
+        createToast(context,msg,0);
+    }
+
     private static void createToast(Context context,String msg,int icon,int delay){
         ASToast toast = (ASToast) new Builder(context)
                 .setIcon(icon)
@@ -74,7 +83,7 @@ public class ASToast extends AlertDialog {
         private int iconId;
         private String text;
         private TextView textView;
-        private ImageView imgView;
+        private View iconView = null;
 
         public int getIcon() {
             return iconId;
@@ -103,9 +112,22 @@ public class ASToast extends AlertDialog {
 
         @Override
         public void createContent(ViewGroup content, View root) {
-            imgView = content.findViewById(R.id.icon);
+            if(0 != iconId){
+                ImageView imgView = new ImageView(context);
+                imgView.setImageResource(iconId);
+                iconView = imgView;
+            }
+            else {
+                ASLoadingView loadingView = new ASLoadingView(context);
+                loadingView.setColor(Color.WHITE);
+                loadingView.setSize(SizeHelper.dp2px(context, 32));
+                iconView = loadingView;
+            }
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.gravity = Gravity.CENTER;
+            iconView.setLayoutParams(lp);
+            content.addView(iconView,0);
             textView = content.findViewById(R.id.msg);
-            imgView.setImageResource(iconId);
             textView.setText(text);
         }
     }
