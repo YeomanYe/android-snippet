@@ -1,4 +1,4 @@
-package com.fwheart.androidsnippet.component.tab;
+package com.fwheart.androidsnippet.widget.tab;
 
 
 import android.support.v4.app.Fragment;

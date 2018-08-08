@@ -16,13 +16,13 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimaryDark" />
 
-        <com.fwheart.androidsnippet.component.tab.ASTabPage
+        <com.fwheart.androidsnippet.widget.tab.ASTabPage
             android:id="@+id/asTabPage"
             app:tab_bar_background="@color/colorPrimary"
             app:tab_text_color="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </com.fwheart.androidsnippet.component.tab.ASTabPage>
+        </com.fwheart.androidsnippet.widget.tab.ASTabPage>
 
     </LinearLayout>
 

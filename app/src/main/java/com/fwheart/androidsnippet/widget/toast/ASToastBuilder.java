@@ -1,4 +1,4 @@
-package com.fwheart.androidsnippet.component.toast;
+package com.fwheart.androidsnippet.widget.toast;
 
 import android.content.Context;
 

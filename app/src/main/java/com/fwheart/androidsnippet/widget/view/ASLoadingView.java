@@ -1,4 +1,4 @@
-package com.fwheart.androidsnippet.component.view;
+package com.fwheart.androidsnippet.widget.view;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

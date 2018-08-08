@@ -1,8 +1,9 @@
-package com.fwheart.androidsnippet.component.dialog;
+package com.fwheart.androidsnippet.widget.dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -19,9 +20,13 @@ public class ASDialog extends AlertDialog {
     @Override
     public void show() {
         super.show();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         WindowManager.LayoutParams params = this.getWindow().getAttributes();
         params.width = 800;
-        //                params.height = 200 ;
         this.getWindow().setAttributes(params);
     }
 

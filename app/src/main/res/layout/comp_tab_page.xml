@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/white" />
 
-    <com.fwheart.androidsnippet.component.tab.ASTabBar
+    <com.fwheart.androidsnippet.widget.tab.ASTabBar
         android:id="@+id/tab_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.fwheart.androidsnippet.component.section;
+package com.fwheart.androidsnippet.widget.section;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

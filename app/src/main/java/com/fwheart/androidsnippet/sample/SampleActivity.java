@@ -3,7 +3,6 @@ package com.fwheart.androidsnippet.sample;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -17,8 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fwheart.androidsnippet.R;
-import com.fwheart.androidsnippet.component.tab.ASTabBar;
-import com.fwheart.androidsnippet.component.tab.ASTabPage;
+import com.fwheart.androidsnippet.widget.tab.ASTabBar;
+import com.fwheart.androidsnippet.widget.tab.ASTabPage;
 
 
 public class SampleActivity extends ActionBarActivity {

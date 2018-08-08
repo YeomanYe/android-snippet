@@ -1,15 +1,11 @@
-package com.fwheart.androidsnippet.component.section;
+package com.fwheart.androidsnippet.widget.section;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;

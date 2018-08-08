@@ -1,4 +1,4 @@
-package com.fwheart.androidsnippet.component.toast;
+package com.fwheart.androidsnippet.widget.toast;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
-import com.fwheart.androidsnippet.component.view.ASLoadingView;
+import com.fwheart.androidsnippet.widget.view.ASLoadingView;
 import com.fwheart.androidsnippet.helper.SizeHelper;
 
 import java.util.Timer;

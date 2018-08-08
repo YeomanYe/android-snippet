@@ -1,6 +1,5 @@
 package com.fwheart.androidsnippet.sample;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,11 +11,11 @@ import android.widget.LinearLayout;
 
 import com.fwheart.androidsnippet.R;
 import com.fwheart.androidsnippet.base.BaseFragment;
-import com.fwheart.androidsnippet.component.dialog.ASDialog;
-import com.fwheart.androidsnippet.component.section.ASSection;
-import com.fwheart.androidsnippet.component.section.ASSectionItem;
-import com.fwheart.androidsnippet.component.section.ASSectionListPage;
-import com.fwheart.androidsnippet.component.toast.ASToast;
+import com.fwheart.androidsnippet.widget.dialog.ASDialog;
+import com.fwheart.androidsnippet.widget.section.ASSection;
+import com.fwheart.androidsnippet.widget.section.ASSectionItem;
+import com.fwheart.androidsnippet.widget.section.ASSectionListPage;
+import com.fwheart.androidsnippet.widget.toast.ASToast;
 
 public class TestFragment extends BaseFragment {
     private static final String ARG_POSITION = "index";

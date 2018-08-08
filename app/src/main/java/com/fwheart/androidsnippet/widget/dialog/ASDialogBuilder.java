@@ -1,4 +1,4 @@
-package com.fwheart.androidsnippet.component.dialog;
+package com.fwheart.androidsnippet.widget.dialog;
 
 import android.content.Context;
 
