@@ -31,7 +31,7 @@ public class ASTabPage extends FrameLayout {
     }
     public ASTabPage(Context context,AttributeSet attrs,int defStyleAttr){
         super(context,attrs,defStyleAttr);
-        LayoutInflater.from(context).inflate(R.layout.comp_tab_page,this,true);
+        LayoutInflater.from(context).inflate(R.layout.widget_tab_page,this,true);
         initViewPager();
         initTabBar();
         initAttr(attrs,defStyleAttr);

@@ -49,7 +49,7 @@ public class ASSection extends LinearLayout{
     }
 
     private void initView(Context context){
-        LayoutInflater.from(context).inflate(R.layout.comp_section,this,true);
+        LayoutInflater.from(context).inflate(R.layout.widget_section,this,true);
         container = findViewById(R.id.item_container);
         titleView = findViewById(R.id.title);
         subTitleView = findViewById(R.id.sub_title);

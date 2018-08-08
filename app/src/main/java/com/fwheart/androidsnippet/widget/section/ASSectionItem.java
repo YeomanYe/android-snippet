@@ -49,7 +49,7 @@ public class ASSectionItem extends RelativeLayout{
     }
 
     private void initView(Context context){
-        LayoutInflater.from(context).inflate(R.layout.comp_section_item,this,true);
+        LayoutInflater.from(context).inflate(R.layout.widget_section_item,this,true);
         accView = findViewById(R.id.section_item_accessoryView);
         textView = findViewById(R.id.section_item_textView);
         detailTextView = findViewById(R.id.section_item_detailTextView);

@@ -107,7 +107,7 @@ public class ASToast extends AlertDialog {
             super(context);
             setHasFooter(false);
             setHasHeader(false);
-            setLayoutId(R.layout.comp_toast);
+            setLayoutId(R.layout.widget_toast);
         }
 
         @Override

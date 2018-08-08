@@ -27,7 +27,7 @@ public class ASDialog extends AlertDialog {
         super.onCreate(savedInstanceState);
         WindowManager.LayoutParams params = this.getWindow().getAttributes();
         params.width = 800;
-        this.getWindow().setAttributes(params);
+        getWindow().setAttributes(params);
     }
 
     public ASDialog(Context context) {

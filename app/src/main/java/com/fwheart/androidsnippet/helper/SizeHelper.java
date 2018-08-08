@@ -1,6 +1,8 @@
 package com.fwheart.androidsnippet.helper;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 public class SizeHelper {
     private static float getDensity(Context c){
@@ -35,5 +37,32 @@ public class SizeHelper {
     public static int px2dp(Context context, int px) {
         return (int) (px / getDensity(context) + 0.5);
     }
+    /**
+     * 获取 DisplayMetrics
+     *
+     * @return
+     */
+    private static DisplayMetrics getDisplayMetrics(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics;
+    }
+    /**
+     * 获取屏幕宽度
+     *
+     * @return
+     */
+    public static int getScreenWidth(Context context) {
+        return getDisplayMetrics(context).widthPixels;
+    }
 
+    /**
+     * 获取屏幕高度
+     *
+     * @return
+     */
+    public static int getScreenHeight(Context context) {
+        return getDisplayMetrics(context).heightPixels;
+    }
 }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.fwheart.androidsnippet.R;
 import com.fwheart.androidsnippet.base.BaseFragment;
+import com.fwheart.androidsnippet.widget.dialog.ASActionSheet;
 import com.fwheart.androidsnippet.widget.dialog.ASDialog;
 import com.fwheart.androidsnippet.widget.section.ASSection;
 import com.fwheart.androidsnippet.widget.section.ASSectionItem;
@@ -98,7 +99,7 @@ public class TestFragment extends BaseFragment {
         textArr = new String[][]{{"Success","成功图标提示"},{"Error","失败图标提示"},{"Info","信息图标提示"},{"Loading","加载提示"}};
         for(int i=0,len=textArr.length;i<len;i++){
             final int index = i + 1;
-            ASSectionItem item = section.newItem(context)
+            section.newItem(context)
                     .setText(textArr[i][0])
                     .setDetailText(textArr[i][1])
                     .setOrientation(LinearLayout.VERTICAL)
@@ -110,6 +111,24 @@ public class TestFragment extends BaseFragment {
                                 case 2:showErr("失败提示");break;
                                 case 3:showInfo("信息提示");break;
                                 case 4:showLoading("加载提示");break;
+                            }
+                        }
+                    });
+        }
+        section = sectionPage.newSection(context).setTitle("ActionSheet");
+        textArr = new String[][]{{"List","列表形式"}};
+        for(int i=0,len=textArr.length;i<len;i++){
+            final int index = i + 1;
+            section.newItem(context)
+                    .setText(textArr[i][0])
+                    .setDetailText(textArr[i][1])
+                    .setOrientation(LinearLayout.VERTICAL)
+                    .setClick(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (index){
+                                case 1:
+                                    showListActionSheet();break;
                             }
                         }
                     });
@@ -132,6 +151,12 @@ public class TestFragment extends BaseFragment {
         ASToast.loading(getContext(),msg);
     }
 
+    private void showListActionSheet(){
+        new ASActionSheet.ListBuilder(getContext())
+                .setTitle("请从下列选项选择一个")
+                .create()
+                .show();
+    }
 
     private void showAlert(String msg){
         new ASDialog.AlertBuilder(getContext())

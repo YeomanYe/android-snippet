@@ -33,7 +33,7 @@ public class ASSectionListPage extends FrameLayout {
         initView(context);
     }
     private void initView(Context context){
-        LayoutInflater.from(context).inflate(R.layout.comp_section_page,this,true);
+        LayoutInflater.from(context).inflate(R.layout.widget_section_page,this,true);
         container = findViewById(R.id.section_container);
     }
     public ASSection newSection(Context context){

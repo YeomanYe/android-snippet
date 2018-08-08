@@ -17,7 +17,7 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder,E extends Al
     protected Context context;
     protected E dialog;
     protected String msg = "";
-    protected int layoutId = R.layout.comp_dialog;
+    protected int layoutId = R.layout.widget_dialog;
     protected int headerId = R.id.header,
             footerId = R.id.footer,
             contentId = R.id.content,
@@ -96,8 +96,8 @@ public abstract class BaseDialogBuilder<T extends BaseDialogBuilder,E extends Al
         titleView.setText(title);
     }
     protected void setOnClick(Button okBtn,Button cancelBtn){
-        okBtn.setOnClickListener(wrapClick(onConfirm,"onConfirm"));
-        cancelBtn.setOnClickListener(wrapClick(onCancel,"onCancel"));
+        if(null != okBtn)okBtn.setOnClickListener(wrapClick(onConfirm,"onConfirm"));
+        if(null != cancelBtn)cancelBtn.setOnClickListener(wrapClick(onCancel,"onCancel"));
     }
     protected void createFooter(ViewGroup footer,View root){
         if(!hasFooter) return;

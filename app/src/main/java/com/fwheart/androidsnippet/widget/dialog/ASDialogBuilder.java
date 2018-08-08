@@ -8,7 +8,6 @@ public abstract class ASDialogBuilder<T extends ASDialogBuilder> extends BaseDia
 
     public ASDialogBuilder(Context context) {
         super(context);
-        this.context = context;
     }
     @Override
     public ASDialog createDialog(Context context){
