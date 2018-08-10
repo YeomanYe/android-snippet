@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fwheart.androidsnippet.R;
+import com.fwheart.androidsnippet.helper.AssetHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class ASSection extends LinearLayout{
     }
     public View createPartLine(Context context){
         View view = new View(context);
-        view.setBackgroundColor(Color.argb(200,0,0,0));
+        view.setBackgroundColor(AssetHelper.getColor(context,R.color.grey_translucent));
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
         view.setLayoutParams(lp);
         return view;

@@ -18,4 +18,7 @@ public class AssetHelper {
         TypedArray typedArray = c.getTheme().obtainStyledAttributes(getResId(c,attrId), attrs);
         return typedArray.getDrawable(0);
     }
+    public static int getColor(Context c,int resId){
+        return c.getResources().getColor(resId);
+    }
 }

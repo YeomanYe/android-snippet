@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fwheart.androidsnippet.R;
+import com.fwheart.androidsnippet.helper.AssetHelper;
+import com.fwheart.androidsnippet.helper.StatusBarHelper;
 import com.fwheart.androidsnippet.widget.tab.ASTabBar;
 import com.fwheart.androidsnippet.widget.tab.ASTabPage;
 
@@ -47,10 +49,10 @@ public class SampleActivity extends ActionBarActivity {
             toolbar.setNavigationIcon(R.drawable.ic_ab_drawer);
         }
 
-        ASTabPage asTabPage = (ASTabPage) findViewById(R.id.asTabPage);
+        final ASTabPage asTabPage = (ASTabPage) findViewById(R.id.asTabPage);
         ASTabPage.TextIconItem item1 = new ASTabPage.TextIconItem("List",R.mipmap.ic_launcher,R.drawable.ic_launcher,TestFragment.newInstance(0));
         ASTabPage.TextIconItem item2 = new ASTabPage.TextIconItem("Dialog",R.mipmap.ic_launcher,R.drawable.ic_launcher,TestFragment.newInstance(1));
-        ASTabPage.TextIconItem item3 = new ASTabPage.TextIconItem("tab3",R.mipmap.ic_launcher,R.drawable.ic_launcher,SampleFragment.newInstance(2));
+        ASTabPage.TextIconItem item3 = new ASTabPage.TextIconItem("Other",R.mipmap.ic_launcher,R.drawable.ic_launcher,TestFragment.newInstance(2));
 
         asTabPage.init(this,item1,item2,item3);
 
@@ -62,36 +64,30 @@ public class SampleActivity extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, values);
         mDrawerList.setAdapter(adapter);
+        StatusBarHelper.translucent(this);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                int color = 0;
                 switch (position) {
                     case 0:
-                        mDrawerList.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
-                        toolbar.setBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
-                        mDrawerLayout.closeDrawer(Gravity.START);
+                        color = AssetHelper.getColor(getApplication(),R.color.material_deep_teal_500);
                         break;
                     case 1:
-                        mDrawerList.setBackgroundColor(getResources().getColor(R.color.red));
-                        toolbar.setBackgroundColor(getResources().getColor(R.color.red));
-                        mDrawerLayout.closeDrawer(Gravity.START);
-
+                        color = AssetHelper.getColor(getApplication(),R.color.red);
                         break;
                     case 2:
-                        mDrawerList.setBackgroundColor(getResources().getColor(R.color.blue));
-                        toolbar.setBackgroundColor(getResources().getColor(R.color.blue));
-                        mDrawerLayout.closeDrawer(Gravity.START);
-
+                        color = AssetHelper.getColor(getApplication(),R.color.blue);
                         break;
                     case 3:
-                        mDrawerList.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
-                        toolbar.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
-                        mDrawerLayout.closeDrawer(Gravity.START);
-
+                        color = AssetHelper.getColor(getApplication(),R.color.material_blue_grey_800);
                         break;
                 }
-
+                asTabPage.setTabBackground(color);
+                mDrawerList.setBackgroundColor(color);
+                toolbar.setBackgroundColor(color);
+                mDrawerLayout.closeDrawer(Gravity.START);
             }
         });
     }

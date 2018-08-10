@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.fwheart.androidsnippet.R;
 import com.fwheart.androidsnippet.base.BaseFragment;
+import com.fwheart.androidsnippet.helper.StatusBarHelper;
 import com.fwheart.androidsnippet.widget.dialog.ASActionSheet;
 import com.fwheart.androidsnippet.widget.dialog.ASDialog;
 import com.fwheart.androidsnippet.widget.section.ASSection;
@@ -37,6 +38,7 @@ public class TestFragment extends BaseFragment {
         switch (index){
             case 0:view = createSectionPage(inflater,container,savedInstanceState);break;
             case 1:view = createDialogPage(inflater,container,savedInstanceState);break;
+            case 2:view = createOtherPage(inflater,container,savedInstanceState);break;
         }
         return view;
     }
@@ -80,7 +82,7 @@ public class TestFragment extends BaseFragment {
         String[][] textArr = new String[][]{{"Alert","只有一个按钮的dialog"},{"Confirm","具有两个按钮的dialog"},{"Prompt","带输入框的dialog"}};
         for(int i=0,len=textArr.length;i<len;i++){
             final int index = i + 1;
-            ASSectionItem item = section.newItem(context)
+            section.newItem(context)
                     .setText(textArr[i][0])
                     .setDetailText(textArr[i][1])
                     .setOrientation(LinearLayout.VERTICAL)
@@ -132,6 +134,36 @@ public class TestFragment extends BaseFragment {
                             }
                         }
                     });
+        }
+        sectionPage.init(context);
+        return view;
+    }
+
+    private View createOtherPage(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        final Context context = getContext();
+        View view = inflater.inflate(R.layout.fragment_list,container,false);
+        ASSectionListPage sectionPage = view.findViewById(R.id.list_page);
+        ASSection section = sectionPage.newSection(context).setTitle("状态栏").setSubTitle("支持4.4以上MIUI和Flyme，以及6.0以上其他Android");
+        String[] textArr = new String[]{"设置状态栏黑色字体与图标","设置状态栏白色字体与图标","获取状态栏实际高度"};
+        for(int i=0,len=textArr.length;i<len;i++){
+            final int index = i;
+            section.newItem(context)
+                    .setText(textArr[i])
+                    .setClick(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                          switch (index){
+                              case 0:
+                                  StatusBarHelper.setStatusBarLightMode(getActivity());break;
+                              case 1:
+                                  StatusBarHelper.setStatusBarDarkMode(getActivity());break;
+                              case 2:
+                                  showTips("状态栏实际高度："+StatusBarHelper.getStatusbarHeight(context));
+                                  break;
+                          }
+                        }
+                    })
+                    .setOrientation(LinearLayout.VERTICAL);
         }
         sectionPage.init(context);
         return view;

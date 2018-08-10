@@ -37,7 +37,7 @@
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="0dp"
-            android:textSize="13sp"
+            android:textSize="16sp"
             android:text="关闭"
             android:layout_weight="1"
             style="?android:attr/borderlessButtonStyle"

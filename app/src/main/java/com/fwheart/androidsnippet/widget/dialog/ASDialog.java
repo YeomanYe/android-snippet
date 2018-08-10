@@ -49,7 +49,7 @@ public class ASDialog extends AlertDialog {
         public void createContent(ViewGroup content, View root) {
             TextView msgText = new TextView(context);
             msgText.setText(msg);
-            msgText.setTextSize(15);
+            msgText.setTextSize(16);
             msgText.setTextColor(Color.GRAY);
             content.addView(msgText);
         }
@@ -66,7 +66,7 @@ public class ASDialog extends AlertDialog {
         public void createContent(ViewGroup content, View root) {
             TextView msgText = new TextView(context);
             msgText.setText(msg);
-            msgText.setTextSize(15);
+            msgText.setTextSize(16);
             msgText.setTextColor(Color.GRAY);
             content.addView(msgText);
         }
@@ -132,7 +132,7 @@ public class ASDialog extends AlertDialog {
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             editText.setLayoutParams(lp);
             editText.setHintTextColor(Color.GRAY);
-            editText.setTextSize(15);
+            editText.setTextSize(16);
             editText.setTextColor(Color.GRAY);
             content.addView(editText);
         }

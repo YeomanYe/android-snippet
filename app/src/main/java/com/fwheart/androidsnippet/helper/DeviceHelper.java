@@ -20,10 +20,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * @author cginechen
- * @date 2016-08-11
- */
+
 public class DeviceHelper {
     private final static String TAG = "DeviceHelper";
     private final static String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";

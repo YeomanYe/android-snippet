@@ -6,10 +6,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.Locale;
 
-/**
- * @author cginechen
- * @date 2016-03-17
- */
+
 public class LangHelper {
 
     /**
